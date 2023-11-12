@@ -1,0 +1,11 @@
+Known Issues:
+
+ - You cannot customize the chat with the Designer.html anymore after you replaced the data.js . Instead you can still change the data.js itself to change the style but be careful not to break anything
+
+-------------------------
+
+Comming soon:
+
+ - Animations for new, moving and outfading messages
+ - Additional design options for messages from subscribers, VIPs and bots
+ - Support for emotes from bttv, 7tv, etc.

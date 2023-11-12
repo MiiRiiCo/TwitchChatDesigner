@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 352">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_302);
+      }
+
+      .cls-2 {
+        fill: url(#Unbenannter_Verlauf_372);
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf_497);
+      }
+
+      .cls-4 {
+        fill: url(#Unbenannter_Verlauf_357);
+      }
+
+      .cls-5 {
+        fill: url(#Unbenannter_Verlauf_340);
+      }
+
+      .cls-6 {
+        fill: url(#Unbenannter_Verlauf_380);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_302" data-name="Unbenannter Verlauf 302" x1="28.29" y1="169.57" x2="131.71" y2="-9.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f33"/>
+      <stop offset="1" stop-color="#ff8080"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_340" data-name="Unbenannter Verlauf 340" x1="204.29" y1="169.57" x2="307.71" y2="-9.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#38f"/>
+      <stop offset="1" stop-color="#80b5ff"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_357" data-name="Unbenannter Verlauf 357" x1="380.29" y1="169.57" x2="483.71" y2="-9.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3f5"/>
+      <stop offset="1" stop-color="#80ff95"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_372" data-name="Unbenannter Verlauf 372" x1="28.29" y1="361.57" x2="131.71" y2="182.43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f39"/>
+      <stop offset="1" stop-color="#ff80c0"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_380" data-name="Unbenannter Verlauf 380" x1="204.29" y1="361.57" x2="307.71" y2="182.43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f93"/>
+      <stop offset="1" stop-color="#ffc080"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_497" data-name="Unbenannter Verlauf 497" x1="380.29" y1="361.57" x2="483.71" y2="182.43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f36"/>
+      <stop offset="1" stop-color="#ff80a0"/>
+    </linearGradient>
+  </defs>
+  <rect class="cls-1" x="0" width="160" height="160" rx="16" ry="16"/>
+  <rect class="cls-5" x="176" width="160" height="160" rx="16" ry="16"/>
+  <rect class="cls-4" x="352" y="0" width="160" height="160" rx="16" ry="16"/>
+  <rect class="cls-2" x="0" y="192" width="160" height="160" rx="16" ry="16"/>
+  <rect class="cls-6" x="176" y="192" width="160" height="160" rx="16" ry="16"/>
+  <rect class="cls-3" x="352" y="192" width="160" height="160" rx="16" ry="16"/>
+</svg>

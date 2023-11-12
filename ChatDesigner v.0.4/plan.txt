@@ -1,0 +1,4 @@
+Comming soon:
+
+ - Additional design options for messages from subscribers, VIPs and bots
+ - Support for emotes from bttv, 7tv, etc.

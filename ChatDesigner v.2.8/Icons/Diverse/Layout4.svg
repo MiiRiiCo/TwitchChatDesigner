@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_2);
+      }
+
+      .cls-2 {
+        fill: url(#Unbenannter_Verlauf_3);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_2" data-name="Unbenannter Verlauf 2" x1="-142.25" y1="469.54" x2="295.82" y2="722.47" gradientTransform="translate(352 -352)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00ff6a"/>
+      <stop offset="1" stop-color="#80ffb4"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_3" data-name="Unbenannter Verlauf 3" x1="113" y1="-84.47" x2="613.43" y2="204.46" gradientTransform="translate(-208 208)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f66"/>
+      <stop offset="1" stop-color="#ffb3b3"/>
+    </linearGradient>
+  </defs>
+  <path class="cls-1" d="m176,176h512v112c0,26.49-21.51,48-48,48H224c-26.49,0-48-21.51-48-48v-112h0Z" transform="translate(176 688) rotate(-90)"/>
+  <path class="cls-2" d="m-56,104h416c26.49,0,48,21.51,48,48v256H-104V152c0-26.49,21.51-48,48-48Z" transform="translate(-104 408) rotate(-90)"/>
+</svg>

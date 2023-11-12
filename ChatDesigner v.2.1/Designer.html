@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Designer</title>
+    <link rel="icon" type="image/x-icon" href="./Icons/favicon.png">
+    <link rel="stylesheet" href="CSS/chatStyle.css">
+    <link rel="stylesheet" href="CSS/editorStyle.css">
+    <script src="Script/tmi.js"></script>
+    <script src="Script/dec2hex.js"></script>
+    <script src="Script/data.js"></script>
+    <script src="Script/settingFunctions.js"></script>
+    <script src="Script/saveFunctions.js"></script>
+    <script src="Script/previewFunctions.js"></script>
+</head>
+<body>
+    <noscript>
+        <p id="jsInactive">JavaScript is deactivated! To use this tool activate JavaScript in your browser!</p>
+    </noscript>
+    <div id="unsupportedBrowser">
+        <p>Unsupported browser! Please check the following points:</p>
+        <ol>
+            <li>Use a Chromium-based browser (New Microsoft Edge / Google Chrome / New Opera)</li>
+            <li>Update your browser</li>
+        </ol>
+    </div>
+    <nav>
+        <button class="navButton" onclick="document.querySelector('nav').classList.toggle('navOpen')"><img class="navIcon iconSVG" src="Icons/Diverse/HamburgerMenu.svg"><span class="navDescr">Menu</span></button>
+        <button class="navButton" onclick="openNavMenu(0)" data-active="false"><img class="navIcon iconSVG" src="Icons/Categories/General.svg"><span class="navDescr">General</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(0)"><img class="navIcon iconSVG" src="Icons/General/Streamer-List.svg"><span class="navDescr">Streamer-List</span></button>
+                <button class="navSubButton" onclick="openSetting(1)"><img class="navIcon iconSVG" src="Icons/General/Direction.svg"><span class="navDescr">Direction</span></button>
+                <button class="navSubButton" onclick="openSetting(2)"><img class="navIcon iconSVG" src="Icons/General/Spacing.svg"><span class="navDescr">Spacing</span></button>
+                <button class="navSubButton" onclick="openSetting(3)"><img class="navIcon iconSVG" src="Icons/General/User Filter.svg"><span class="navDescr">User filter</span></button>
+                <button class="navSubButton" onclick="openSetting(4)"><img class="navIcon iconSVG" src="Icons/General/Message Filter.svg"><span class="navDescr">Message filter</span></button>
+                <button class="navSubButton" onclick="openSetting(5)"><img class="navIcon iconSVG" src="Icons/General/Max Messages.svg"><span class="navDescr">Max. messages</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(1)" data-active="false"><img class="navIcon iconSVG" src="Icons/Categories/Chatbox.svg"><span class="navDescr">Chatbox</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(6)"><img class="navIcon iconSVG" src="Icons/Chatbox/Background.svg"><span class="navDescr">Background</span></button>
+                <button class="navSubButton" onclick="openSetting(7)"><img class="navIcon iconSVG" src="Icons/Chatbox/Border.svg"><span class="navDescr">Border</span></button>
+                <button class="navSubButton" onclick="openSetting(8)"><img class="navIcon iconSVG" src="Icons/Chatbox/Block-Shadow.svg"><span class="navDescr">Block-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(9)"><img class="navIcon iconSVG" src="Icons/Chatbox/Sizing&Spacing.svg"><span class="navDescr">Sizing & Spacing</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(2)" data-active="false"><img class="navIcon iconSVG" src="Icons/Categories/Username.svg"><span class="navDescr">Username</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(10)"><img class="navIcon iconSVG" src="Icons/Username/Background.svg"><span class="navDescr">Background</span></button>
+                <button class="navSubButton" onclick="openSetting(11)"><img class="navIcon iconSVG" src="Icons/Username/Border.svg"><span class="navDescr">Border</span></button>
+                <button class="navSubButton" onclick="openSetting(12)"><img class="navIcon iconSVG" src="Icons/Username/Block-Shadow.svg"><span class="navDescr">Block-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(13)"><img class="navIcon iconSVG" src="Icons/Username/Sizing&Spacing.svg"><span class="navDescr">Sizing & Spacing</span></button>
+                <button class="navSubButton" onclick="openSetting(14)"><img class="navIcon iconSVG" src="Icons/Username/Font.svg"><span class="navDescr">Font</span></button>
+                <button class="navSubButton" onclick="openSetting(15)"><img class="navIcon iconSVG" src="Icons/Username/Text-Shadow.svg"><span class="navDescr">Text-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(16)"><img class="navIcon iconSVG" src="Icons/Username/Text-Content.svg"><span class="navDescr">Text-Content</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(3)" data-active="false"><img class="navIcon iconSVG" src="Icons/Categories/Message.svg"><span class="navDescr">Message</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(17)"><img class="navIcon iconSVG" src="Icons/Message/Background.svg"><span class="navDescr">Background</span></button>
+                <button class="navSubButton" onclick="openSetting(18)"><img class="navIcon iconSVG" src="Icons/Message/Border.svg"><span class="navDescr">Border</span></button>
+                <button class="navSubButton" onclick="openSetting(19)"><img class="navIcon iconSVG" src="Icons/Message/Block-Shadow.svg"><span class="navDescr">Block-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(20)"><img class="navIcon iconSVG" src="Icons/Message/Sizing&Spacing.svg"><span class="navDescr">Sizing & Spacing</span></button>
+                <button class="navSubButton" onclick="openSetting(21)"><img class="navIcon iconSVG" src="Icons/Message/Font.svg"><span class="navDescr">Font</span></button>
+                <button class="navSubButton" onclick="openSetting(22)"><img class="navIcon iconSVG" src="Icons/Message/Text-Shadow.svg"><span class="navDescr">Text-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(23)"><img class="navIcon iconSVG" src="Icons/Message/Text-Content.svg"><span class="navDescr">Text-Content</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(4)" data-active="false"><img class="navIcon iconSVG" src="Icons/Categories/Others.svg"><span class="navDescr">Others</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(24)"><img class="navIcon iconSVG" src="Icons/Others/Emotes.svg"><span class="navDescr">Emotes</span></button>
+                <button class="navSubButton" onclick="openSetting(25)"><img class="navIcon iconSVG" src="Icons/Others/Badges.svg"><span class="navDescr">Badges</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(5)" data-active="false"><img class="navIcon iconSVG" src="Icons/Categories/Animation.svg"><span class="navDescr">Animation</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(26)"><img class="navIcon iconSVG" src="Icons/Animation/Timing.svg"><span class="navDescr">Timing</span></button>
+                <button class="navSubButton" onclick="openSetting(27)"><img class="navIcon iconSVG" src="Icons/Animation/Animation In.svg"><span class="navDescr">Animation In</span></button>
+                <button class="navSubButton" onclick="openSetting(28)"><img class="navIcon iconSVG" src="Icons/Animation/Animation Out.svg"><span class="navDescr">Animation Out</span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mainWrapper">
+        <div class="roleCont">
+            <button class="roleBtn" onclick="changeActiveRole('user')" data-active="true">User</button>
+            <button class="roleBtn" onclick="changeActiveRole('sub')" data-active="false">Subscriber</button>
+            <button class="roleBtn" onclick="changeActiveRole('vip')" data-active="false">VIP</button>
+            <button class="roleBtn" onclick="changeActiveRole('mod')" data-active="false">Moderator</button>
+            <span id="ImpNote">v2.1</span>
+        </div>
+        <main>
+            <div id="Cnt"></div>
+        </main>
+        <div class="cntCtrl">
+            <div class="cntCtrlCont cntCtrlWidthCont">width: <input type="number" class="cntCtrlNum" placeholder="auto " id="cntCtrlWidthInp" oninput="changeCntSize()">px</div>
+            <div class="cntCtrlCont cntCtrlHeightCont">height: <input type="number" class="cntCtrlNum" placeholder="auto " id="cntCtrlHeightInp" oninput="changeCntSize()">px</div>
+            <button class="cntCtrlBtn" onclick="clearChat()">Clear</button>
+            <button class="cntCtrlBtn cntCtrlSave" onclick="saveSettings()">Save</button>
+        </div>
+    </div>
+    <aside>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Streamer-List</h2>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/General.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/General/Streamer-List.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputTextList" data-minOne="true" id="genStreamerList">
+                    <div class="inputTextListItem"><input type="text" class="inputTextListItemInput genStreamerListInput" oninput="updateStreamerList()" value=""><button class="inputTextListItemRemove" onclick="this.parentNode.remove(); removeStreamerList();"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button></div>
+                </div>
+                <button class="inputTextListAdd" onclick="addStreamerList();"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                <button class="inputTextListConnect" onclick="connectStreamer();" data-connected="false" id="ConnectButton">Connect</button>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Direction</h2>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/General.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/General/Direction.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="selectItemRow">
+                    <button class="genChatDirectionBtn" data-active="false" onclick="updateChatDir('up')"><img class="iconSVG" src="Icons/Diverse/Up.svg">Up</button>
+                    <button class="genChatDirectionBtn" data-active="false" onclick="updateChatDir('down')"><img class="iconSVG" src="Icons/Diverse/Down.svg">Down</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Spacing</h2>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/General.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/General/Spacing.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputNumBigCont">
+                    <input type="number" class="inputNumBig inputNumRmvArrows" min="0" id="genSpacingInput" oninput="updateGenSpacing(event)">
+                    <div class="inputNumArrowCont">
+                        <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                        <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>User filter</h2>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/General.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/General/User Filter.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputTextList" id="genFilterUser"></div>
+                <button class="inputTextListAdd" onclick="addFilterUser();"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Message filter</h2>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/General.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/General/Message Filter.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputTextList" id="genFilterMessage"></div>
+                <button class="inputTextListAdd" onclick="addFilterMessage();"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Max. messages</h2>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/General.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/General/Max Messages.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputNumBigCont">
+                    <input type="number" class="inputNumBig inputNumRmvArrows" min="1" id="genMaxMsgInput" oninput="updateMaxMsg()">
+                    <div class="inputNumArrowCont">
+                        <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                        <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Background</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.cbxBackground')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Chatbox.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Chatbox/Background.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="colorMenuCol colorMenuColCbxBG"></div>
+                <div class="addGradientCont selectItemRow">
+                    <button onclick="addGradientCbxBG('solid')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Solid</button>
+                    <button onclick="addGradientCbxBG('linear')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Linear</button>
+                    <button onclick="addGradientCbxBG('radial')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Radial</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Border</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.cbxBorder')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Chatbox.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Chatbox/Border.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="borderGridCont">
+                    <div class="borderGrid" id="borderGridCbx">
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('tl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuCbx('top')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('tr')"></button>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuCbx('left')"></button>
+                        <span></span>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuCbx('right')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('bl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuCbx('bottom')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('br')"></button>
+                    </div>
+                </div>
+                <div class="borderEdgeMenu borderEdgeMenuCbx" data-active="false">
+                    <div class="borderTypeCont">
+                        <button data-active="false" onclick="updateBorderCbx('type', 'none')" data-type="none" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'solid')" data-type="solid" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'dotted')" data-type="dotted" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'dashed')" data-type="dashed" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'double')" data-type="double" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'groove')" data-type="groove" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'ridge')" data-type="ridge" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'inset')" data-type="inset" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'outset')" data-type="outset" class="borderTypeBtn"><div></div></button>
+                    </div>
+                    <div class="borderWidthCont">
+                        <div class="inputNumBigCont">
+                            <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="cbxBorderWidth" oninput="updateBorderCbx('width')">
+                            <div class="inputNumArrowCont">
+                                <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                                <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="borderColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateBorderCbx('colorType', 'custom')"><input type="color" class="colorChangeInput" id="cbxBorderColor" oninput="updateBorderCbx('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateBorderCbx('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="cbxBorderOpacity" oninput="updateBorderCbx('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateBorderCbx('all')">Append to all</button>
+                    </div>
+                </div>
+                <div class="borderCornerMenu borderCornerMenuCbx" data-active="false">
+                    <div class="inputNumBigCont">
+                        <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="cbxCornerRadius" oninput="updateCornerCbx('corner')">
+                        <div class="inputNumArrowCont">
+                            <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                            <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateCornerCbx('all')">Append to all</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Block-Shadow</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.cbxShadow')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Chatbox.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Chatbox/Block-Shadow.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="shadowColGrid">
+                    <div class="shadowCol shadowColCbx" data-delete-active="false"></div>
+                    <button class="shadowAdd" onclick="addShadowCbx()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                    <button class="shadowRemove" onclick="removeSwitchShadowCbx()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="shadowSettingMenu shadowSettingsCbx" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">expand:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <button class="bigBtn cbxShadowInset" onclick="if(this.getAttribute('data-active') === 'false') {this.setAttribute('data-active', 'true')} else {this.setAttribute('data-active', 'false')} updateShadowCbx();" data-active="false">Inset</button>
+                    <div class="shadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateShadowCbx('colorType', 'custom')"><input type="color" class="colorChangeInput" id="cbxShadowColor" oninput="updateShadowCbx('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateShadowCbx('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="cbxShadowOpacity" oninput="updateShadowCbx('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Sizing & Spacing</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.cbxPosition')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Chatbox.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Chatbox/Sizing&Spacing.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="spacingGridCont">
+                    <div class="spacingGrid spacingGridCbx">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OT')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OL')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OR')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OB')">
+                        <div class="spacingGridMid">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IT')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IL')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IR')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IB')">
+                        </div>
+                    </div>
+                </div>
+                <div class="sizingRow selectItemRow cbxSizingRow">
+                    <button onclick="updateCbxSizing('stretch')" data-active="false"><img class="iconSVG" src="Icons/Diverse/LeftRight.svg"></button>
+                    <button onclick="updateCbxSizing('flex-start')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignLeft.svg"></button>
+                    <button onclick="updateCbxSizing('center')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignCenter.svg"></button>
+                    <button onclick="updateCbxSizing('flex-end')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignRight.svg"></button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Background</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.usnBackground')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Username.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Username/Background.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="colorMenuCol colorMenuColUsnBG"></div>
+                <div class="addGradientCont selectItemRow">
+                    <button onclick="addGradientUsnBG('solid')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Solid</button>
+                    <button onclick="addGradientUsnBG('linear')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Linear</button>
+                    <button onclick="addGradientUsnBG('radial')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Radial</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Border</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.usnBorder')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Username.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Username/Border.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="borderGridCont">
+                    <div class="borderGrid" id="borderGridUsn">
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('tl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuUsn('top')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('tr')"></button>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuUsn('left')"></button>
+                        <span></span>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuUsn('right')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('bl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuUsn('bottom')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('br')"></button>
+                    </div>
+                </div>
+                <div class="borderEdgeMenu borderEdgeMenuUsn" data-active="false">
+                    <div class="borderTypeCont">
+                        <button data-active="false" onclick="updateBorderUsn('type', 'none')" data-type="none" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'solid')" data-type="solid" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'dotted')" data-type="dotted" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'dashed')" data-type="dashed" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'double')" data-type="double" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'groove')" data-type="groove" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'ridge')" data-type="ridge" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'inset')" data-type="inset" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'outset')" data-type="outset" class="borderTypeBtn"><div></div></button>
+                    </div>
+                    <div class="borderWidthCont">
+                        <div class="inputNumBigCont">
+                            <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="usnBorderWidth" oninput="updateBorderUsn('width')">
+                            <div class="inputNumArrowCont">
+                                <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                                <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="borderColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateBorderUsn('colorType', 'custom')"><input type="color" class="colorChangeInput" id="usnBorderColor" oninput="updateBorderUsn('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateBorderUsn('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnBorderOpacity" oninput="updateBorderUsn('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateBorderUsn('all')">Append to all</button>
+                    </div>
+                </div>
+                <div class="borderCornerMenu borderCornerMenuUsn" data-active="false">
+                    <div class="inputNumBigCont">
+                        <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="usnCornerRadius" oninput="updateCornerUsn('corner')">
+                        <div class="inputNumArrowCont">
+                            <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                            <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateCornerUsn('all')">Append to all</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Block-Shadow</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.usnShadow')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Username.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Username/Block-Shadow.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="shadowColGrid">
+                    <div class="shadowCol shadowColUsn" data-delete-active="false"></div>
+                    <button class="shadowAdd" onclick="addShadowUsn()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                    <button class="shadowRemove" onclick="removeSwitchShadowUsn()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="shadowSettingMenu shadowSettingsUsn" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">expand:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <button class="bigBtn usnShadowInset" onclick="if(this.getAttribute('data-active') === 'false') {this.setAttribute('data-active', 'true')} else {this.setAttribute('data-active', 'false')} updateShadowUsn();" data-active="false">Inset</button>
+                    <div class="shadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateShadowUsn('colorType', 'custom')"><input type="color" class="colorChangeInput" id="usnShadowColor" oninput="updateShadowUsn('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateShadowUsn('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnShadowOpacity" oninput="updateShadowUsn('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Sizing & Spacing</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.usnPosition')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Username.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Username/Sizing&Spacing.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="spacingGridCont">
+                    <div class="spacingGrid spacingGridUsn">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OT')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OL')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OR')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OB')">
+                        <div class="spacingGridMid">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IT')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IL')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IR')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IB')">
+                        </div>
+                    </div>
+                </div>
+                <div class="sizingRow selectItemRow usnSizingRow">
+                    <button onclick="updateUsnSizing('stretch')" data-active="false"><img class="iconSVG" src="Icons/Diverse/LeftRight.svg"></button>
+                    <button onclick="updateUsnSizing('flex-start')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignLeft.svg"></button>
+                    <button onclick="updateUsnSizing('center')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignCenter.svg"></button>
+                    <button onclick="updateUsnSizing('flex-end')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignRight.svg"></button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Font</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.usnFont')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Username.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Username/Font.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontFamily.svg"></span>
+                    <input class="descrInput" type="text" class="fontFam" value="Arial" id="usnFontFamInp" oninput="updateUsnFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontSize.svg"></span>
+                    <input class="descrInput" type="number" class="fontSize" value="14" id="usnFontSizeInp" oninput="updateUsnFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontBold.svg"></span>
+                    <input class="descrInput" type="number" class="fontWeight" value="700" id="usnFontWeightInp" oninput="updateUsnFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontLineHeight.svg"></span>
+                    <input class="descrInput" type="number" class="fontLineHeight" value="16" id="usnFontHeightInp" oninput="updateUsnFont()">
+                    <button class="autoBtn fontHeightAutoBtn usnFontHeightAutoBtn" data-active="false" onclick="updateUsnFont('autoheight')">auto</button>
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontSpacing.svg"></span>
+                    <input class="descrInput" type="number" class="fontLetterSpacing" value="0" id="usnFontSpaceInp" oninput="updateUsnFont()">
+                </div>
+                <div class="fontStyleRow usnFontStyleRow selectItemRow">
+                    <button onclick="updateUsnFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontOverline.svg"></button>
+                    <button onclick="updateUsnFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontLinethrough.svg"></button>
+                    <button onclick="updateUsnFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontUnderline.svg"></button>
+                    <button onclick="updateUsnFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontCursive.svg"></button>
+                </div>
+                <div class="fontAlignRow usnFontAlignRow selectItemRow">
+                    <button onclick="updateUsnFont('align')" data-active="false" data-value="left"><img class="iconSVG descrIconSVG" src="Icons/Diverse/AlignLeft.svg"></button>
+                    <button onclick="updateUsnFont('align')" data-active="false" data-value="center"><img class="iconSVG descrIconSVG" src="Icons/Diverse/AlignCenter.svg"></button>
+                    <button onclick="updateUsnFont('align')" data-active="false" data-value="right"><img class="iconSVG descrIconSVG" src="Icons/Diverse/AlignRight.svg"></button>
+                </div>
+                <div class="fontColorUsnMenu">
+                    <div class="colorChangeCont">
+                        <div class="colorChangeType selectItemRow">
+                            <button onclick="updateUsnFont('colorType', 'custom')" data-active="false"><input type="color" class="colorChangeInput" id="usnFontColor" oninput="updateUsnFont('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                            <button onclick="updateUsnFont('colorType', 'twitch')" data-active="false"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                        </div>
+                        <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnFontOpacity" oninput="updateUsnFont('opacity')">
+                        <div class="presetCont">
+                            <div class="presetList" data-delete-show="false"></div>
+                            <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                            <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Shadow</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.usnFontShadow')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Username.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Username/Text-Shadow.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="fontShadowColGrid">
+                    <div class="fontShadowCol fontShadowColUsn" data-delete-active="false"></div>
+                    <button class="fontShadowAdd" onclick="addFontShadowUsn()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                    <button class="fontShadowRemove" onclick="removeSwitchFontShadowUsn()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="fontShadowSettingMenu fontShadowSettingsUsn" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="fontShadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateFontShadowUsn('colorType', 'custom')"><input type="color" class="colorChangeInput" id="usnFontShadowColor" oninput="updateFontShadowUsn('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateFontShadowUsn('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnFontShadowOpacity" oninput="updateFontShadowUsn('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Content</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.usnContent')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Username.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Username/Text-Content.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="contentRow">
+                    <input type="text" class="contentInp usnContentInp" oninput="updateUsnContent()" id="usnContentTxt">
+                </div>
+                <div class="contentHelpList">
+                    <table>
+                        <tr>
+                            <th>{streamer}</th>
+                            <td>name of the streamer in which chat the message got send</td>
+                        </tr>
+                        <tr>
+                            <th>{usn}</th>
+                            <td>username</td>
+                        </tr>
+                        <tr>
+                            <th>{msg}</th>
+                            <td>content of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{h}</th>
+                            <td>hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{hh}</th>
+                            <td>2-digit hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{m}</th>
+                            <td>minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{mm}</th>
+                            <td>2-digit minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{s}</th>
+                            <td>second of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{ss}</th>
+                            <td>2-digit second of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{badges}</th>
+                            <td>badges the user has on the streamers channel</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Background</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.msgBackground')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Message.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Message/Background.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="colorMenuCol colorMenuColMsgBG"></div>
+                <div class="addGradientCont selectItemRow">
+                    <button onclick="addGradientMsgBG('solid')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Solid</button>
+                    <button onclick="addGradientMsgBG('linear')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Linear</button>
+                    <button onclick="addGradientMsgBG('radial')"><img class="iconSVG" src="Icons/Diverse/Add.svg">Radial</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Border</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.msgBorder')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Message.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Message/Border.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="borderGridCont">
+                    <div class="borderGrid" id="borderGridMsg">
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('tl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuMsg('top')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('tr')"></button>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuMsg('left')"></button>
+                        <span></span>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuMsg('right')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('bl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuMsg('bottom')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('br')"></button>
+                    </div>
+                </div>
+                <div class="borderEdgeMenu borderEdgeMenuMsg" data-active="false">
+                    <div class="borderTypeCont">
+                        <button data-active="false" onclick="updateBorderMsg('type', 'none')" data-type="none" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'solid')" data-type="solid" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'dotted')" data-type="dotted" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'dashed')" data-type="dashed" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'double')" data-type="double" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'groove')" data-type="groove" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'ridge')" data-type="ridge" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'inset')" data-type="inset" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'outset')" data-type="outset" class="borderTypeBtn"><div></div></button>
+                    </div>
+                    <div class="borderWidthCont">
+                        <div class="inputNumBigCont">
+                            <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="msgBorderWidth" oninput="updateBorderMsg('width')">
+                            <div class="inputNumArrowCont">
+                                <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                                <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="borderColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateBorderMsg('colorType', 'custom')"><input type="color" class="colorChangeInput" id="msgBorderColor" oninput="updateBorderMsg('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateBorderMsg('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgBorderOpacity" oninput="updateBorderMsg('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateBorderMsg('all')">Append to all</button>
+                    </div>
+                </div>
+                <div class="borderCornerMenu borderCornerMenuMsg" data-active="false">
+                    <div class="inputNumBigCont">
+                        <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="msgCornerRadius" oninput="updateCornerMsg('corner')">
+                        <div class="inputNumArrowCont">
+                            <button class="inputNumArrow" onclick="updateNum(event, '+')"><img class="iconSVG" src="Icons/Diverse/UpLite.svg"></button>
+                            <button class="inputNumArrow" onclick="updateNum(event, '-')"><img class="iconSVG" src="Icons/Diverse/DownLite.svg"></button>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateCornerMsg('all')">Append to all</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Block-Shadow</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.msgShadow')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Message.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Message/Block-Shadow.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="shadowColGrid">
+                    <div class="shadowCol shadowColMsg" data-delete-active="false"></div>
+                    <button class="shadowAdd" onclick="addShadowMsg()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                    <button class="shadowRemove" onclick="removeSwitchShadowMsg()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="shadowSettingMenu shadowSettingsMsg" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">expand:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <button class="bigBtn msgShadowInset" onclick="if(this.getAttribute('data-active') === 'false') {this.setAttribute('data-active', 'true')} else {this.setAttribute('data-active', 'false')} updateShadowMsg();" data-active="false">Inset</button>
+                    <div class="shadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateShadowMsg('colorType', 'custom')"><input type="color" class="colorChangeInput" id="msgShadowColor" oninput="updateShadowMsg('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateShadowMsg('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgShadowOpacity" oninput="updateShadowMsg('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Sizing & Spacing</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.msgPosition')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Message.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Message/Sizing&Spacing.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="spacingGridCont">
+                    <div class="spacingGrid spacingGridMsg">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OT')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OL')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OR')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OB')">
+                        <div class="spacingGridMid">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IT')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IL')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IR')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IB')">
+                        </div>
+                    </div>
+                </div>
+                <div class="sizingRow selectItemRow msgSizingRow">
+                    <button onclick="updateMsgSizing('stretch')" data-active="false"><img class="iconSVG" src="Icons/Diverse/LeftRight.svg"></button>
+                    <button onclick="updateMsgSizing('flex-start')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignLeft.svg"></button>
+                    <button onclick="updateMsgSizing('center')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignCenter.svg"></button>
+                    <button onclick="updateMsgSizing('flex-end')" data-active="false"><img class="iconSVG" src="Icons/Diverse/AlignRight.svg"></button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Font</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.msgFont')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Message.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Message/Font.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontFamily.svg"></span>
+                    <input class="descrInput" type="text" class="fontFam" value="Arial" id="msgFontFamInp" oninput="updateMsgFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontSize.svg"></span>
+                    <input class="descrInput" type="number" class="fontSize" value="14" id="msgFontSizeInp" oninput="updateMsgFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontBold.svg"></span>
+                    <input class="descrInput" type="number" class="fontWeight" value="400" id="msgFontWeightInp" oninput="updateMsgFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontLineHeight.svg"></span>
+                    <input class="descrInput" type="number" class="fontLineHeight" value="16" id="msgFontHeightInp" oninput="updateMsgFont()">
+                    <button class="autoBtn fontHeightAutoBtn msgFontHeightAutoBtn" data-active="false" onclick="updateMsgFont('autoheight')">auto</button>
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontSpacing.svg"></span>
+                    <input class="descrInput" type="number" class="fontLetterSpacing" value="0" id="msgFontSpaceInp" oninput="updateMsgFont()">
+                </div>
+                <div class="fontStyleRow msgFontStyleRow selectItemRow">
+                    <button onclick="updateMsgFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontOverline.svg"></button>
+                    <button onclick="updateMsgFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontLinethrough.svg"></button>
+                    <button onclick="updateMsgFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontUnderline.svg"></button>
+                    <button onclick="updateMsgFont('style')" data-active="false"><img class="iconSVG descrIconSVG" src="Icons/Diverse/FontCursive.svg"></button>
+                </div>
+                <div class="fontAlignRow msgFontAlignRow selectItemRow">
+                    <button onclick="updateMsgFont('align')" data-active="false" data-value="left"><img class="iconSVG descrIconSVG" src="Icons/Diverse/AlignLeft.svg"></button>
+                    <button onclick="updateMsgFont('align')" data-active="false" data-value="center"><img class="iconSVG descrIconSVG" src="Icons/Diverse/AlignCenter.svg"></button>
+                    <button onclick="updateMsgFont('align')" data-active="false" data-value="right"><img class="iconSVG descrIconSVG" src="Icons/Diverse/AlignRight.svg"></button>
+                </div>
+                <div class="fontColorMsgMenu">
+                    <div class="colorChangeCont">
+                        <div class="colorChangeType selectItemRow">
+                            <button onclick="updateMsgFont('colorType', 'custom')" data-active="false"><input type="color" class="colorChangeInput" id="msgFontColor" oninput="updateMsgFont('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                            <button onclick="updateMsgFont('colorType', 'twitch')" data-active="false"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                        </div>
+                        <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgFontOpacity" oninput="updateMsgFont('opacity')">
+                        <div class="presetCont">
+                            <div class="presetList" data-delete-show="false"></div>
+                            <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                            <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Shadow</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.msgFontShadow')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Message.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Message/Text-Shadow.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="fontShadowColGrid">
+                    <div class="fontShadowCol fontShadowColMsg" data-delete-active="false"></div>
+                    <button class="fontShadowAdd" onclick="addFontShadowMsg()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                    <button class="fontShadowRemove" onclick="removeSwitchFontShadowMsg()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="fontShadowSettingMenu fontShadowSettingsMsg" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="fontShadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button onclick="updateFontShadowMsg('colorType', 'custom')"><input type="color" class="colorChangeInput" id="msgFontShadowColor" oninput="updateFontShadowMsg('color')"><img class="iconSVG" src="Icons/Diverse/Color.svg"></button>
+                                <button onclick="updateFontShadowMsg('colorType', 'twitch')"><img class="iconSVG" src="Icons/Diverse/TwitchColor.svg"></button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgFontShadowOpacity" oninput="updateFontShadowMsg('opacity')">
+                            <div class="presetCont">
+                                <div class="presetList" data-delete-show="false"></div>
+                                <button class="presetAdd" onclick="addPreset()"><img class="iconSVG" src="Icons/Diverse/Add.svg"></button>
+                                <button class="presetShowDelete" onclick="showDeletePreset()"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Content</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.msgContent')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Message.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Message/Text-Content.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="contentRow">
+                    <input type="text" class="contentInp msgContentInp" oninput="updateMsgContent()" id="msgContentTxt">
+                </div>
+                <div class="contentHelpList">
+                    <table>
+                        <tr>
+                            <th>{streamer}</th>
+                            <td>name of the streamer in which chat the message got send</td>
+                        </tr>
+                        <tr>
+                            <th>{usn}</th>
+                            <td>username</td>
+                        </tr>
+                        <tr>
+                            <th>{msg}</th>
+                            <td>content of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{h}</th>
+                            <td>hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{hh}</th>
+                            <td>2-digit hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{m}</th>
+                            <td>minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{mm}</th>
+                            <td>2-digit minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{s}</th>
+                            <td>second of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{ss}</th>
+                            <td>2-digit second of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{badges}</th>
+                            <td>badges the user has on the streamers channel</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Emotes</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.othEmotes')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Others.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Others/Emotes.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Arrow-BL-TR.svg"></span>
+                    <input class="descrInput" type="number" class="emoteSize" id="othEmoteSizeInp" oninput="updateOthEmotes()">
+                    <button class="autoBtn emoteSizeAutoBtn" data-active="false" onclick="updateOthEmotes('autosize')">auto</button>
+                </div>
+                <div class="descrInputRow emoteAlignRow">
+                    <button class="emoteAlignBtn" onclick="updateOthEmotes('vAlign')" data-active="false" data-value="top"><img class="iconSVG descrIconSVG" src="Icons/Diverse/EmoteLineTop.svg"></button>
+                    <button class="emoteAlignBtn" onclick="updateOthEmotes('vAlign')" data-active="false" data-value="middle"><img class="iconSVG descrIconSVG" src="Icons/Diverse/EmoteLineMiddle.svg"></button>
+                    <button class="emoteAlignBtn" onclick="updateOthEmotes('vAlign')" data-active="false" data-value="bottom"><img class="iconSVG descrIconSVG" src="Icons/Diverse/EmoteLineBottom.svg"></button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Badges</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.othBadges')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Others.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Others/Badges.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/BadgesHeight.svg"></span>
+                    <input class="descrInput" type="number" class="badgesHeightInp" id="othBadgesHeightInp" oninput="updateOthBadges()">
+                    <button class="autoBtn badgesHeightAutoBtn" data-active="false" onclick="updateOthBadges('autosize')">auto</button>
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/BadgesGap.svg"></span>
+                    <input class="descrInput" type="number" class="badgesGapInp" id="othBadgesGapInp" oninput="updateOthBadges()">
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Timing</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.anmTiming')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Animation.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Animation/Timing.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow anmRow">
+                    <span class="descrTxt">Delay</span>
+                    <input class="descrInput" type="number" id="anmTimingDelay" oninput="updateAnmTiming('Del')">
+                    <span class="descrUnit">ms</span>
+                </div>
+                <div class="descrInputRow anmRow">
+                    <span class="descrTxt">Appearing</span>
+                    <input class="descrInput" type="number" id="anmTimingAppearing" oninput="updateAnmTiming('App')">
+                    <span class="descrUnit">ms</span>
+                </div>
+                <div class="descrInputRow anmRow">
+                    <span class="descrTxt">Duration</span>
+                    <input class="descrInput" type="number" id="anmTimingDuration" oninput="updateAnmTiming('Dur')" placeholder="infinite">
+                    <span class="descrUnit">ms</span>
+                </div>
+                <div class="descrInputRow anmRow">
+                    <span class="descrTxt">Vanishing</span>
+                    <input class="descrInput" type="number" id="anmTimingVanishing" oninput="updateAnmTiming('Van')">
+                    <span class="descrUnit">ms</span>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Animation In</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.anmShow')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Animation.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Animation/Animation In.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="squareItemsRow">
+                    <button class="anmTypeBtn anmShowType" data-active="false" onclick="openAnmShow(0)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Arrow-BL-TR.svg"></button>
+                    <button class="anmTypeBtn anmShowType" data-active="false" onclick="openAnmShow(1)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseLeftRight.svg"></button>
+                    <button class="anmTypeBtn anmShowType" data-active="false" onclick="openAnmShow(2)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseTopBottom.svg"></button>
+                    <button class="anmTypeBtn anmShowType" data-active="false" onclick="openAnmShow(3)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateX.svg"></button>
+                    <button class="anmTypeBtn anmShowType" data-active="false" onclick="openAnmShow(4)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateY.svg"></button>
+                    <button class="anmTypeBtn anmShowType" data-active="false" onclick="openAnmShow(5)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateZ.svg"></button>
+                    <button class="anmTypeBtn anmShowType" data-active="false" onclick="openAnmShow(6)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Opacity.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmShowRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Arrow-BL-TR.svg"></span>
+                    <input class="descrInput" type="number" id="anmShowScale" oninput="updateAnmShow(0)"><span class="descrUnit">x</span>
+                    <button class="removeAnmRow" onclick="removeAnmShow(0)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmShowRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseLeftRight.svg"></span>
+                    <input class="descrInput" type="number" id="anmShowMoveX" oninput="updateAnmShow(1)"><span class="descrUnit">px</span>
+                    <button class="removeAnmRow" onclick="removeAnmShow(1)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmShowRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseTopBottom.svg"></span>
+                    <input class="descrInput" type="number" id="anmShowMoveY" oninput="updateAnmShow(2)"><span class="descrUnit">px</span>
+                    <button class="removeAnmRow" onclick="removeAnmShow(2)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmShowRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateX.svg"></span>
+                    <input class="descrInput" type="number" id="anmShowRotateX" oninput="updateAnmShow(3)"><span class="descrUnit">°</span>
+                    <button class="removeAnmRow" onclick="removeAnmShow(3)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmShowRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateY.svg"></span>
+                    <input class="descrInput" type="number" id="anmShowRotateY" oninput="updateAnmShow(4)"><span class="descrUnit">°</span>
+                    <button class="removeAnmRow" onclick="removeAnmShow(4)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmShowRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateZ.svg"></span>
+                    <input class="descrInput" type="number" id="anmShowRotateZ" oninput="updateAnmShow(5)"><span class="descrUnit">°</span>
+                    <button class="removeAnmRow" onclick="removeAnmShow(5)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmShowRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Opacity.svg"></span>
+                    <input class="descrInput" type="number" id="anmShowOpacity" oninput="updateAnmShow(6)"><span class="descrUnit">%</span>
+                    <button class="removeAnmRow" onclick="removeAnmShow(6)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Animation Out</h2>
+                <div class="roleActiveCont">
+                    <button class="roleActiveBtn" data-active="true" onclick="switchRoleActive('settings.anmHide')"></button>
+                    <h3 class="roleHeaderDescr">User</h3>
+                </div>
+                <div class="settingHeaderIconCont">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Categories/Animation.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Diverse/GreaterThan.svg">
+                    <img class="settingHeaderIcon iconSVG" src="Icons/Animation/Animation Out.svg">
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="squareItemsRow">
+                    <button class="anmTypeBtn anmHideType" data-active="false" onclick="openAnmHide(0)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Arrow-BL-TR.svg"></button>
+                    <button class="anmTypeBtn anmHideType" data-active="false" onclick="openAnmHide(1)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseLeftRight.svg"></button>
+                    <button class="anmTypeBtn anmHideType" data-active="false" onclick="openAnmHide(2)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseTopBottom.svg"></button>
+                    <button class="anmTypeBtn anmHideType" data-active="false" onclick="openAnmHide(3)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateX.svg"></button>
+                    <button class="anmTypeBtn anmHideType" data-active="false" onclick="openAnmHide(4)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateY.svg"></button>
+                    <button class="anmTypeBtn anmHideType" data-active="false" onclick="openAnmHide(5)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateZ.svg"></button>
+                    <button class="anmTypeBtn anmHideType" data-active="false" onclick="openAnmHide(6)"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Opacity.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmHideRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Arrow-BL-TR.svg"></span>
+                    <input class="descrInput" type="number" id="anmHideScale" oninput="updateAnmHide(0)"><span class="descrUnit">x</span>
+                    <button class="removeAnmRow" onclick="removeAnmHide(0)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmHideRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseLeftRight.svg"></span>
+                    <input class="descrInput" type="number" id="anmHideMoveX" oninput="updateAnmHide(1)"><span class="descrUnit">px</span>
+                    <button class="removeAnmRow" onclick="removeAnmHide(1)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmHideRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/ReverseTopBottom.svg"></span>
+                    <input class="descrInput" type="number" id="anmHideMoveY" oninput="updateAnmHide(2)"><span class="descrUnit">px</span>
+                    <button class="removeAnmRow" onclick="removeAnmHide(2)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmHideRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateX.svg"></span>
+                    <input class="descrInput" type="number" id="anmHideRotateX" oninput="updateAnmHide(3)"><span class="descrUnit">°</span>
+                    <button class="removeAnmRow" onclick="removeAnmHide(3)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmHideRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateY.svg"></span>
+                    <input class="descrInput" type="number" id="anmHideRotateY" oninput="updateAnmHide(4)"><span class="descrUnit">°</span>
+                    <button class="removeAnmRow" onclick="removeAnmHide(4)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmHideRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/RotateZ.svg"></span>
+                    <input class="descrInput" type="number" id="anmHideRotateZ" oninput="updateAnmHide(5)"><span class="descrUnit">°</span>
+                    <button class="removeAnmRow" onclick="removeAnmHide(5)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+                <div class="descrInputRow anmRow anmHideRow" data-show="false">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Opacity.svg"></span>
+                    <input class="descrInput" type="number" id="anmHideOpacity" oninput="updateAnmHide(6)"><span class="descrUnit">%</span>
+                    <button class="removeAnmRow" onclick="removeAnmHide(6)"><img class="iconSVG" src="Icons/Diverse/Remove.svg"></button>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <script src="Script/loadSettings.js"></script>
+    <script src="Script/decompileFinal.js"></script>
+</body>
+</html>

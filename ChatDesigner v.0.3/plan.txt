@@ -1,0 +1,6 @@
+Comming soon:
+
+ - Animations for new, moving and outfading messages
+ - Additional design options for messages from subscribers, VIPs and bots
+ - Additional settings to change the size of the chat window
+ - Support for emotes from bttv, 7tv, etc.

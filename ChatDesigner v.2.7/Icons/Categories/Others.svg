@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_110);
+      }
+
+      .cls-2 {
+        fill: url(#Unbenannter_Verlauf_110-2);
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf_110-3);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_110" data-name="Unbenannter Verlauf 110" x1="31.99" y1="311.43" x2="96.01" y2="200.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eae000"/>
+      <stop offset="1" stop-color="#fff975"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_110-2" data-name="Unbenannter Verlauf 110" x1="415.99" x2="480.01" xlink:href="#Unbenannter_Verlauf_110"/>
+    <linearGradient id="Unbenannter_Verlauf_110-3" data-name="Unbenannter Verlauf 110" x1="223.99" x2="288.01" xlink:href="#Unbenannter_Verlauf_110"/>
+  </defs>
+  <circle class="cls-1" cx="64" cy="256" r="64"/>
+  <circle class="cls-2" cx="448" cy="256" r="64"/>
+  <circle class="cls-3" cx="256" cy="256" r="64"/>
+</svg>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 336">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_12-3);
+      }
+
+      .cls-2 {
+        fill: url(#Unbenannter_Verlauf_12-2);
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf_12);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_12" data-name="Unbenannter Verlauf 12" x1="266" y1="117.53" x2="374" y2="-69.53" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#999"/>
+      <stop offset="1" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_12-2" data-name="Unbenannter Verlauf 12" x1="186" y1="289.25" x2="326" y2="46.75" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_12-3" data-name="Unbenannter Verlauf 12" x1="346" y1="377.82" x2="422" y2="246.18" xlink:href="#Unbenannter_Verlauf_12"/>
+  </defs>
+  <rect class="cls-3" x="128" y="0" width="384" height="48" rx="24" ry="24"/>
+  <rect class="cls-2" x="0" y="144" width="512" height="48" rx="24" ry="24"/>
+  <rect class="cls-1" x="256" y="288" width="256" height="48" rx="24" ry="24"/>
+</svg>

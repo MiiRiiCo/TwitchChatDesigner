@@ -1,0 +1,37 @@
+1.  Open the Designer.html with a Chromium-based browser (follow the readme.txt file) to open Chat Designer.
+
+2.  Click on the hamburger-button on the top-left corner to show the descriptions of the menu.
+
+3.  Click on "General" > "Streamer-List". In the menu on the right side type in the name(s) of the twitch-channel(s) you want to connect to. (If you should see a "#", just delete it). Click on connect. There is no need to authenticate your channel(s) because Chat Designer does not need sensitive data.
+
+
+TIP: To preview a more filled chat, go to twitch, search for a streamer with an active chat and type in his channel. Use this only for preview purposes! After you're done, change the Streamer-List back to your channel(s).
+
+
+4.  Go to your twitch channel and open the chat of your channel. (You can also use the chat inside OBS).
+
+5.  Send some messages that are different from each other to preview different types of messages.
+
+
+TIP: Change the color of your twitch name with the command /color [colorname]. If you only send /color you will get color names recommended that you can use.
+
+
+6.  Design your Chat with the tools provided on the left side and have fun 😄. Change the width and the height of the chat preview by changing the values on the bottom-left corner. By clicking on "clear" you can clear the chat preview.
+
+7.  After you're done creating click on the green "save" button on the bottom edge. Download the "data.js" file. Your browser will probably warn you that this file could harm your PC. This is due to the fact, that it's a JavaScript file.
+
+8.  Move the "data.js" file to your Chat Designer folder into the folder "Scripts" and replace the old file.
+
+9.  Go to your OBS to the scene you want your chat to be shown and add a new browser-source. Give the source a fitting name (e.g. "StartingSoonChat").
+
+10. Check the box "Locale file". Click on the right side on "browse" and search for the Chat.html file which is in the same folder as the Designer.html file.
+
+11. Set the width and the height of the browser source. Only change the size of the chat with these values!!! Otherwise the chat can be blurry or pixelated. If you want to change the size afterwards, double-click the browser source and change these values.
+
+12. Clear the custom css textbox
+
+13. Move the chat to the right position.
+
+ENJOY!
+
+HINT: If you move the Chat Designer folder to somewhere else, don't forget to change the directory of the browser-source in OBS too.

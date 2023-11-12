@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_12-3);
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: url(#Unbenannter_Verlauf_12);
+        stroke-linejoin: round;
+        stroke-width: 48px;
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf_130);
+      }
+
+      .cls-4 {
+        fill: url(#Unbenannter_Verlauf_12-2);
+      }
+
+      .cls-5 {
+        fill: url(#Unbenannter_Verlauf_184);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_184" data-name="Unbenannter Verlauf 184" x1="31.99" y1="311.43" x2="96.01" y2="200.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6abeff"/>
+      <stop offset="1" stop-color="#d1ebff"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_130" data-name="Unbenannter Verlauf 130" x1="415.99" y1="311.43" x2="480.01" y2="200.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f33"/>
+      <stop offset="1" stop-color="#ff8080"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_12" data-name="Unbenannter Verlauf 12" x1="213.61" y1="329.43" x2="298.39" y2="182.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#999"/>
+      <stop offset="1" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_12-2" data-name="Unbenannter Verlauf 12" x1="159.06" y1="297.93" x2="243.84" y2="151.08" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_12-3" data-name="Unbenannter Verlauf 12" x1="268.16" y1="360.92" x2="352.94" y2="214.07" xlink:href="#Unbenannter_Verlauf_12"/>
+  </defs>
+  <circle class="cls-5" cx="64" cy="256" r="64"/>
+  <circle class="cls-3" cx="448" cy="256" r="64"/>
+  <g>
+    <line class="cls-2" x1="196.89" y1="256" x2="315.11" y2="256"/>
+    <polygon class="cls-4" points="210.89 303.87 128 256 210.89 208.13 210.89 303.87"/>
+    <polygon class="cls-1" points="301.11 303.87 384 256 301.11 208.13 301.11 303.87"/>
+  </g>
+</svg>

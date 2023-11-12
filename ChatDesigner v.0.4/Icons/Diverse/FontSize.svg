@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 384">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_12-3);
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: url(#Unbenannter_Verlauf_12-2);
+        stroke-linejoin: round;
+        stroke-width: 48px;
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf_12-4);
+      }
+
+      .cls-4 {
+        fill: url(#Unbenannter_Verlauf_12);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_12" data-name="Unbenannter Verlauf 12" x1="99.45" y1="426.11" x2="305.76" y2="68.78" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#999"/>
+      <stop offset="1" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_12-2" data-name="Unbenannter Verlauf 12" x1="446.05" y1="384.53" x2="408.95" y2="-.53" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_12-3" data-name="Unbenannter Verlauf 12" x1="441.57" y1="384.96" x2="404.48" y2="-.09" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_12-4" data-name="Unbenannter Verlauf 12" x1="450.52" y1="384.09" x2="413.43" y2="-.96" xlink:href="#Unbenannter_Verlauf_12"/>
+  </defs>
+  <path class="cls-4" d="m264.19,335.62l-17.73-46.61H95.49l-17.73,47.62c-6.93,18.58-12.84,31.12-17.73,37.61-4.9,6.5-12.92,9.75-24.06,9.75-9.46,0-17.82-3.46-25.08-10.39-7.26-6.92-10.89-14.77-10.89-23.56,0-5.07.84-10.3,2.53-15.7,1.69-5.4,4.47-12.92,8.36-22.54L105.88,70.67c2.7-6.92,5.95-15.24,9.75-24.95,3.8-9.71,7.85-17.77,12.16-24.19,4.31-6.42,9.96-11.61,16.97-15.58,7.01-3.97,15.66-5.95,25.96-5.95s19.21,1.99,26.22,5.95c7.01,3.97,12.66,9.08,16.97,15.32,4.31,6.25,7.94,12.96,10.89,20.14,2.95,7.18,6.71,16.76,11.27,28.75l97.01,239.62c7.6,18.24,11.4,31.5,11.4,39.77s-3.59,16.51-10.77,23.68c-7.18,7.18-15.83,10.77-25.96,10.77-5.91,0-10.98-1.06-15.2-3.17-4.22-2.11-7.77-4.98-10.64-8.61-2.87-3.63-5.95-9.2-9.25-16.72-3.29-7.51-6.12-14.14-8.49-19.88Zm-148.94-103.09h110.94l-55.98-153.25-54.97,153.25Z"/>
+  <g>
+    <line class="cls-2" x1="427.5" y1="263.45" x2="427.5" y2="120.55"/>
+    <polygon class="cls-1" points="511.27 238.94 427.5 384 343.73 238.94 511.27 238.94"/>
+    <polygon class="cls-3" points="511.27 145.06 427.5 0 343.73 145.06 511.27 145.06"/>
+  </g>
+</svg>

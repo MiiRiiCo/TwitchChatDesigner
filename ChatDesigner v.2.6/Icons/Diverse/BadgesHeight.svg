@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: url(#Unbenannter_Verlauf_12-3);
+        stroke-linejoin: round;
+        stroke-width: 48px;
+      }
+
+      .cls-2 {
+        fill: url(#Unbenannter_Verlauf_12-5);
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf_12-4);
+      }
+
+      .cls-4 {
+        fill: url(#Unbenannter_Verlauf_130);
+      }
+
+      .cls-5 {
+        fill: url(#Unbenannter_Verlauf_12-2);
+      }
+
+      .cls-6 {
+        fill: url(#Unbenannter_Verlauf_12);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_12" data-name="Unbenannter Verlauf 12" x1="186" y1="593.25" x2="326" y2="350.75" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#999"/>
+      <stop offset="1" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_12-2" data-name="Unbenannter Verlauf 12" y1="161.25" y2="-81.25" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_12-3" data-name="Unbenannter Verlauf 12" x1="363.03" y1="410.39" x2="541.3" y2="101.61" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_12-4" data-name="Unbenannter Verlauf 12" x1="401.3" y1="432.49" x2="579.57" y2="123.7" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_12-5" data-name="Unbenannter Verlauf 12" x1="324.75" y1="388.3" x2="503.03" y2="79.51" xlink:href="#Unbenannter_Verlauf_12"/>
+    <linearGradient id="Unbenannter_Verlauf_130" data-name="Unbenannter Verlauf 130" x1="95.98" y1="422.3" x2="288.02" y2="89.7" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f33"/>
+      <stop offset="1" stop-color="#ff8080"/>
+    </linearGradient>
+  </defs>
+  <rect class="cls-6" y="448" width="512" height="48" rx="24" ry="24"/>
+  <rect class="cls-5" y="16" width="512" height="48" rx="24" ry="24"/>
+  <g>
+    <line class="cls-1" x1="452.16" y1="361.89" x2="452.16" y2="150.11"/>
+    <polygon class="cls-3" points="512 344.38 452.16 448 392.33 344.38 512 344.38"/>
+    <polygon class="cls-2" points="512 167.62 452.16 64 392.33 167.62 512 167.62"/>
+  </g>
+  <circle class="cls-4" cx="192" cy="256" r="192"/>
+</svg>

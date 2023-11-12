@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Designer</title>
+    <link rel="icon" type="image/x-icon" href="/Icons/favicon.svg">
+    <link rel="stylesheet" href="CSS/chatStyle.css">
+    <link rel="stylesheet" href="CSS/editorStyle.css">
+    <script src="Script/tmi.js"></script>
+    <script src="Script/dec2hex.js"></script>
+    <script src="Script/data.js"></script>
+    <script src="Script/settingFunctions.js"></script>
+    <script src="Script/saveFunctions.js"></script>
+    <script src="Script/previewFunctions.js"></script>
+</head>
+<body>
+    <nav>
+        <button class="navButton" onclick="document.querySelector('nav').classList.toggle('navOpen')"><span class="icon navIcon">&#xE700;</span><span class="navDescr">Menu</span></button>
+        <button class="navButton" onclick="openNavMenu(0)" data-active="false"><span class="icon navIcon">&#xE7F8;</span><span class="navDescr">General</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(0)"><span class="icon navIcon">&#xE716;</span><span class="navDescr">Streamer-List</span></button>
+                <button class="navSubButton" onclick="openSetting(1)"><span class="icon navIcon">&#xE8CB;</span><span class="navDescr">Direction</span></button>
+                <button class="navSubButton" onclick="openSetting(2)"><span class="icon navIcon">&#xE75D;</span><span class="navDescr">Spacing</span></button>
+                <button class="navSubButton" onclick="openSetting(3)"><span class="icon navIcon">&#xE8F8;</span><span class="navDescr">User filter</span></button>
+                <button class="navSubButton" onclick="openSetting(4)"><span class="icon navIcon">&#xE71C;</span><span class="navDescr">Message filter</span></button>
+                <button class="navSubButton" onclick="openSetting(5)"><span class="icon navIcon">&#xE727;</span><span class="navDescr">Max. messages</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(1)" data-active="false"><span class="icon navIcon">&#xE737;</span><span class="navDescr">Chatbox</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(6)"><span class="icon navIcon">&#xE771;</span><span class="navDescr">Background</span></button>
+                <button class="navSubButton" onclick="openSetting(7)"><span class="icon navIcon">&#xF16B;</span><span class="navDescr">Border</span></button>
+                <button class="navSubButton" onclick="openSetting(8)"><span class="icon navIcon">&#xF5ED;</span><span class="navDescr">Block-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(9)"><span class="icon navIcon">&#xE740;</span><span class="navDescr">Sizing & Spacing</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(2)" data-active="false"><span class="icon navIcon">&#xE77B;</span><span class="navDescr">Username</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(10)"><span class="icon navIcon">&#xE771;</span><span class="navDescr">Background</span></button>
+                <button class="navSubButton" onclick="openSetting(11)"><span class="icon navIcon">&#xF16B;</span><span class="navDescr">Border</span></button>
+                <button class="navSubButton" onclick="openSetting(12)"><span class="icon navIcon">&#xF5ED;</span><span class="navDescr">Block-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(13)"><span class="icon navIcon">&#xE740;</span><span class="navDescr">Sizing & Spacing</span></button>
+                <button class="navSubButton" onclick="openSetting(14)"><span class="icon navIcon">&#xE8D2;</span><span class="navDescr">Font</span></button>
+                <button class="navSubButton" onclick="openSetting(15)"><span class="icon navIcon">&#xF5ED;</span><span class="navDescr">Text-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(16)"><span class="icon navIcon">&#xE943;</span><span class="navDescr">Text-Content</span></button>
+            </div>
+        </div>
+        <button class="navButton" onclick="openNavMenu(3)" data-active="false"><span class="icon navIcon">&#xE8BD;</span><span class="navDescr">Message</span></button>
+        <div class="navMenuWrapper" data-open="false">
+            <div class="navMenu">
+                <button class="navSubButton" onclick="openSetting(17)"><span class="icon navIcon">&#xE771;</span><span class="navDescr">Background</span></button>
+                <button class="navSubButton" onclick="openSetting(18)"><span class="icon navIcon">&#xF16B;</span><span class="navDescr">Border</span></button>
+                <button class="navSubButton" onclick="openSetting(19)"><span class="icon navIcon">&#xF5ED;</span><span class="navDescr">Block-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(20)"><span class="icon navIcon">&#xE740;</span><span class="navDescr">Sizing & Spacing</span></button>
+                <button class="navSubButton" onclick="openSetting(21)"><span class="icon navIcon">&#xE8D2;</span><span class="navDescr">Font</span></button>
+                <button class="navSubButton" onclick="openSetting(22)"><span class="icon navIcon">&#xF5ED;</span><span class="navDescr">Text-Shadow</span></button>
+                <button class="navSubButton" onclick="openSetting(23)"><span class="icon navIcon">&#xE943;</span><span class="navDescr">Text-Content</span></button>
+                <button class="navSubButton" onclick="openSetting(24)"><span class="icon navIcon">&#xED54;</span><span class="navDescr">Emotes</span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mainWrapper">
+        <div class="cntCtrl">
+            <div class="cntCtrlCont cntCtrlWidthCont">width: <input type="number" class="cntCtrlNum" placeholder="auto " id="cntCtrlWidthInp" oninput="changeCntSize()">px</div>
+            <div class="cntCtrlCont cntCtrlHeightCont">height: <input type="number" class="cntCtrlNum" placeholder="auto " id="cntCtrlHeightInp" oninput="changeCntSize()">px</div>
+            <button class="cntCtrlBtn" onclick="clearChat()">Clear</button>
+            <button class="cntCtrlBtn cntCtrlSave" onclick="saveSettings()">Save</button>
+        </div>
+        <main>
+            <div id="Cnt"></div>
+        </main>
+    </div>
+    <aside>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Streamer-List</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE7F8;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE716;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputTextList" data-minOne="true" id="genStreamerList">
+                    <div class="inputTextListItem"><input type="text" class="inputTextListItemInput genStreamerListInput" oninput="updateStreamerList()" value=""><button class="inputTextListItemRemove icon" onclick="this.parentNode.remove(); removeStreamerList();">&#xE74D;</button></div>
+                </div>
+                <button class="inputTextListAdd icon" onclick="addStreamerList();">&#xE710;</button>
+                <button class="inputTextListConnect" onclick="connectStreamer();" data-connected="false" id="ConnectButton">Connect</button>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Direction</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE7F8;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE8CB;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="selectItemRow">
+                    <button class="genChatDirectionBtn" data-active="false" onclick="updateChatDir('up')"><span class="icon">&#xE74A;</span>Up</button>
+                    <button class="genChatDirectionBtn" data-active="false" onclick="updateChatDir('down')"><span class="icon">&#xE74B;</span>Down</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Spacing</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE7F8;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE75D;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputNumBigCont">
+                    <input type="number" class="inputNumBig inputNumRmvArrows" min="0" id="genSpacingInput" oninput="updateGenSpacing(event)">
+                    <div class="inputNumArrowCont">
+                        <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                        <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>User filter</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE7F8;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE8F8;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputTextList" id="genFilterUser"></div>
+                <button class="inputTextListAdd icon" onclick="addFilterUser();">&#xE710;</button>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Message filter</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE7F8;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE71C;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputTextList" id="genFilterMessage"></div>
+                <button class="inputTextListAdd icon" onclick="addFilterMessage();">&#xE710;</button>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Max. messages</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE7F8;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE727;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="inputNumBigCont">
+                    <input type="number" class="inputNumBig inputNumRmvArrows" min="1" id="genMaxMsgInput" oninput="updateMaxMsg()">
+                    <div class="inputNumArrowCont">
+                        <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                        <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Background</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE737;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE771;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="colorMenuCol colorMenuColCbxBG"></div>
+                <div class="addGradientCont selectItemRow">
+                    <button onclick="addGradientCbxBG('solid')"><span class="icon">&#xE710;</span>Solid</button>
+                    <button onclick="addGradientCbxBG('linear')"><span class="icon">&#xE710;</span>Linear</button>
+                    <button onclick="addGradientCbxBG('radial')"><span class="icon">&#xE710;</span>Radial</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Border</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE737;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF16B;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="borderGridCont">
+                    <div class="borderGrid" id="borderGridCbx">
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('tl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuCbx('top')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('tr')"></button>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuCbx('left')"></button>
+                        <div class="borderPrev icon">&#xE962;</div>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuCbx('right')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('bl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuCbx('bottom')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuCbx('br')"></button>
+                    </div>
+                </div>
+                <div class="borderEdgeMenu borderEdgeMenuCbx" data-active="false">
+                    <div class="borderTypeCont">
+                        <button data-active="false" onclick="updateBorderCbx('type', 'none')" data-type="none" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'solid')" data-type="solid" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'dotted')" data-type="dotted" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'dashed')" data-type="dashed" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'double')" data-type="double" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'groove')" data-type="groove" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'ridge')" data-type="ridge" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'inset')" data-type="inset" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderCbx('type', 'outset')" data-type="outset" class="borderTypeBtn"><div></div></button>
+                    </div>
+                    <div class="borderWidthCont">
+                        <div class="inputNumBigCont">
+                            <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="cbxBorderWidth" oninput="updateBorderCbx('width')">
+                            <div class="inputNumArrowCont">
+                                <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                                <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="borderColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateBorderCbx('colorType', 'custom')"><input type="color" class="colorChangeInput" id="cbxBorderColor" oninput="updateBorderCbx('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateBorderCbx('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="cbxBorderOpacity" oninput="updateBorderCbx('opacity')">
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateBorderCbx('all')">Append to all</button>
+                    </div>
+                </div>
+                <div class="borderCornerMenu borderCornerMenuCbx" data-active="false">
+                    <div class="inputNumBigCont">
+                        <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="cbxCornerRadius" oninput="updateCornerCbx('corner')">
+                        <div class="inputNumArrowCont">
+                            <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                            <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateCornerCbx('all')">Append to all</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Block-Shadow</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE737;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF5ED;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="shadowColGrid">
+                    <div class="shadowCol shadowColCbx" data-delete-active="false"></div>
+                    <button class="shadowAdd icon" onclick="addShadowCbx()">&#xE710;</button>
+                    <button class="shadowRemove icon" onclick="removeSwitchShadowCbx()">&#xE74D;</button>
+                </div>
+                <div class="shadowSettingMenu shadowSettingsCbx" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">expand:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowCbx()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <button class="bigBtn cbxShadowInset" onclick="if(this.getAttribute('data-active') === 'false') {this.setAttribute('data-active', 'true')} else {this.setAttribute('data-active', 'false')} updateShadowCbx();" data-active="false">Inset</button>
+                    <div class="shadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateShadowCbx('colorType', 'custom')"><input type="color" class="colorChangeInput" id="cbxShadowColor" oninput="updateShadowCbx('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateShadowCbx('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="cbxShadowOpacity" oninput="updateShadowCbx('opacity')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Sizing & Spacing</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE737;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE740;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="spacingGridCont">
+                    <div class="spacingGrid spacingGridCbx">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OT')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OL')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OR')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateCbxSpacing('OB')">
+                        <div class="spacingGridMid">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IT')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IL')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IR')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateCbxSpacing('IB')">
+                        </div>
+                    </div>
+                </div>
+                <div class="sizingRow selectItemRow cbxSizingRow">
+                    <button onclick="updateCbxSizing('stretch')" data-active="false">Full</button>
+                    <button class="icon" onclick="updateCbxSizing('flex-start')" data-active="false">&#xE8E4;</button>
+                    <button class="icon" onclick="updateCbxSizing('center')" data-active="false">&#xE8E3;</button>
+                    <button class="icon" onclick="updateCbxSizing('flex-end')" data-active="false">&#xE8E2;</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Background</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE77B;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE771;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="colorMenuCol colorMenuColUsnBG"></div>
+                <div class="addGradientCont selectItemRow">
+                    <button onclick="addGradientUsnBG('solid')"><span class="icon">&#xE710;</span>Solid</button>
+                    <button onclick="addGradientUsnBG('linear')"><span class="icon">&#xE710;</span>Linear</button>
+                    <button onclick="addGradientUsnBG('radial')"><span class="icon">&#xE710;</span>Radial</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Border</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE77B;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF16B;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="borderGridCont">
+                    <div class="borderGrid" id="borderGridUsn">
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('tl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuUsn('top')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('tr')"></button>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuUsn('left')"></button>
+                        <div class="borderPrev icon">&#xE962;</div>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuUsn('right')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('bl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuUsn('bottom')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuUsn('br')"></button>
+                    </div>
+                </div>
+                <div class="borderEdgeMenu borderEdgeMenuUsn" data-active="false">
+                    <div class="borderTypeCont">
+                        <button data-active="false" onclick="updateBorderUsn('type', 'none')" data-type="none" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'solid')" data-type="solid" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'dotted')" data-type="dotted" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'dashed')" data-type="dashed" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'double')" data-type="double" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'groove')" data-type="groove" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'ridge')" data-type="ridge" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'inset')" data-type="inset" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderUsn('type', 'outset')" data-type="outset" class="borderTypeBtn"><div></div></button>
+                    </div>
+                    <div class="borderWidthCont">
+                        <div class="inputNumBigCont">
+                            <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="usnBorderWidth" oninput="updateBorderUsn('width')">
+                            <div class="inputNumArrowCont">
+                                <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                                <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="borderColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateBorderUsn('colorType', 'custom')"><input type="color" class="colorChangeInput" id="usnBorderColor" oninput="updateBorderUsn('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateBorderUsn('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnBorderOpacity" oninput="updateBorderUsn('opacity')">
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateBorderUsn('all')">Append to all</button>
+                    </div>
+                </div>
+                <div class="borderCornerMenu borderCornerMenuUsn" data-active="false">
+                    <div class="inputNumBigCont">
+                        <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="usnCornerRadius" oninput="updateCornerUsn('corner')">
+                        <div class="inputNumArrowCont">
+                            <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                            <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateCornerUsn('all')">Append to all</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Block-Shadow</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE77B;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF5ED;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="shadowColGrid">
+                    <div class="shadowCol shadowColUsn" data-delete-active="false"></div>
+                    <button class="shadowAdd icon" onclick="addShadowUsn()">&#xE710;</button>
+                    <button class="shadowRemove icon" onclick="removeSwitchShadowUsn()">&#xE74D;</button>
+                </div>
+                <div class="shadowSettingMenu shadowSettingsUsn" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">expand:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <button class="bigBtn usnShadowInset" onclick="if(this.getAttribute('data-active') === 'false') {this.setAttribute('data-active', 'true')} else {this.setAttribute('data-active', 'false')} updateShadowUsn();" data-active="false">Inset</button>
+                    <div class="shadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateShadowUsn('colorType', 'custom')"><input type="color" class="colorChangeInput" id="usnShadowColor" oninput="updateShadowUsn('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateShadowUsn('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnShadowOpacity" oninput="updateShadowUsn('opacity')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Sizing & Spacing</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE77B;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE740;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="spacingGridCont">
+                    <div class="spacingGrid spacingGridUsn">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OT')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OL')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OR')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateUsnSpacing('OB')">
+                        <div class="spacingGridMid">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IT')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IL')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IR')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateUsnSpacing('IB')">
+                        </div>
+                    </div>
+                </div>
+                <div class="sizingRow selectItemRow usnSizingRow">
+                    <button onclick="updateUsnSizing('stretch')" data-active="false">Full</button>
+                    <button class="icon" onclick="updateUsnSizing('flex-start')" data-active="false">&#xE8E4;</button>
+                    <button class="icon" onclick="updateUsnSizing('center')" data-active="false">&#xE8E3;</button>
+                    <button class="icon" onclick="updateUsnSizing('flex-end')" data-active="false">&#xE8E2;</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Font</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE77B;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE8D2;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE8D2;</span>
+                    <input class="descrInput" type="text" class="fontFam" value="Arial" id="usnFontFamInp" oninput="updateUsnFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE8E9;</span>
+                    <input class="descrInput" type="number" class="fontSize" value="14" id="usnFontSizeInp" oninput="updateUsnFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE8DD;</span>
+                    <input class="descrInput" type="number" class="fontWeight" value="700" id="usnFontWeightInp" oninput="updateUsnFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE76F;</span>
+                    <input class="descrInput" type="number" class="fontLineHeight" value="16" id="usnFontHeightInp" oninput="updateUsnFont()">
+                    <button class="autoBtn fontHeightAutoBtn usnFontHeightAutoBtn" data-active="true" onclick="updateUsnFont('autoheight')">auto</button>
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE75D;</span>
+                    <input class="descrInput" type="number" class="fontLetterSpacing" value="0" id="usnFontSpaceInp" oninput="updateUsnFont()">
+                </div>
+                <div class="fontStyleRow usnFontStyleRow selectItemRow">
+                    <button onclick="updateUsnFont('style')" data-active="false">T</button>
+                    <button onclick="updateUsnFont('style')" data-active="false">T</button>
+                    <button onclick="updateUsnFont('style')" data-active="false">T</button>
+                    <button onclick="updateUsnFont('style')" data-active="false">T</button>
+                </div>
+                <div class="fontAlignRow usnFontAlignRow selectItemRow">
+                    <button class="icon" onclick="updateUsnFont('align')" data-active="false" data-value="left">&#xE8E4;</button>
+                    <button class="icon" onclick="updateUsnFont('align')" data-active="false" data-value="center">&#xE8E3;</button>
+                    <button class="icon" onclick="updateUsnFont('align')" data-active="false" data-value="right">&#xE8E2;</button>
+                </div>
+                <div class="fontColorUsnMenu">
+                    <div class="colorChangeCont">
+                        <div class="colorChangeType selectItemRow">
+                            <button class="icon" onclick="updateUsnFont('colorType', 'custom')" data-active="true"><input type="color" class="colorChangeInput" id="usnFontColor" oninput="updateUsnFont('color')"> &#xF354;</button>
+                            <button class="icon" onclick="updateUsnFont('colorType', 'twitch')" data-active="false">&#xEA8C;</button>
+                        </div>
+                        <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnFontOpacity" oninput="updateUsnFont('opacity')">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Shadow</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE77B;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF5ED;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="fontShadowColGrid">
+                    <div class="fontShadowCol fontShadowColUsn" data-delete-active="false"></div>
+                    <button class="fontShadowAdd icon" onclick="addFontShadowUsn()">&#xE710;</button>
+                    <button class="fontShadowRemove icon" onclick="removeSwitchFontShadowUsn()">&#xE74D;</button>
+                </div>
+                <div class="fontShadowSettingMenu fontShadowSettingsUsn" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowUsn()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="fontShadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateFontShadowUsn('colorType', 'custom')"><input type="color" class="colorChangeInput" id="usnFontShadowColor" oninput="updateFontShadowUsn('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateFontShadowUsn('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="usnFontShadowOpacity" oninput="updateFontShadowUsn('opacity')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Content</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE77B;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE943;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="contentRow">
+                    <input type="text" class="contentInp usnContentInp" oninput="updateUsnContent()" id="usnContentTxt">
+                </div>
+                <div class="contentHelpList">
+                    <table>
+                        <tr>
+                            <th>{streamer}</th>
+                            <td>name of the streamer in which chat the message got send</td>
+                        </tr>
+                        <tr>
+                            <th>{usn}</th>
+                            <td>username</td>
+                        </tr>
+                        <tr>
+                            <th>{msg}</th>
+                            <td>content of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{h}</th>
+                            <td>hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{hh}</th>
+                            <td>2-digit hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{m}</th>
+                            <td>minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{mm}</th>
+                            <td>2-digit minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{s}</th>
+                            <td>second of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{ss}</th>
+                            <td>2-digit second of the message</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Background</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE771;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="colorMenuCol colorMenuColMsgBG"></div>
+                <div class="addGradientCont selectItemRow">
+                    <button onclick="addGradientMsgBG('solid')"><span class="icon">&#xE710;</span>Solid</button>
+                    <button onclick="addGradientMsgBG('linear')"><span class="icon">&#xE710;</span>Linear</button>
+                    <button onclick="addGradientMsgBG('radial')"><span class="icon">&#xE710;</span>Radial</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Border</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF16B;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="borderGridCont">
+                    <div class="borderGrid" id="borderGridMsg">
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('tl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuMsg('top')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('tr')"></button>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuMsg('left')"></button>
+                        <div class="borderPrev icon">&#xE962;</div>
+                        <button class="borderSelect borderSelectSdH" onclick="openBorderMenuMsg('right')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('bl')"></button>
+                        <button class="borderSelect borderSelectSdV" onclick="openBorderMenuMsg('bottom')"></button>
+                        <button class="borderSelect borderSelectCrn" onclick="openBorderMenuMsg('br')"></button>
+                    </div>
+                </div>
+                <div class="borderEdgeMenu borderEdgeMenuMsg" data-active="false">
+                    <div class="borderTypeCont">
+                        <button data-active="false" onclick="updateBorderMsg('type', 'none')" data-type="none" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'solid')" data-type="solid" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'dotted')" data-type="dotted" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'dashed')" data-type="dashed" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'double')" data-type="double" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'groove')" data-type="groove" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'ridge')" data-type="ridge" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'inset')" data-type="inset" class="borderTypeBtn"><div></div></button>
+                        <button data-active="false" onclick="updateBorderMsg('type', 'outset')" data-type="outset" class="borderTypeBtn"><div></div></button>
+                    </div>
+                    <div class="borderWidthCont">
+                        <div class="inputNumBigCont">
+                            <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="msgBorderWidth" oninput="updateBorderMsg('width')">
+                            <div class="inputNumArrowCont">
+                                <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                                <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="borderColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateBorderMsg('colorType', 'custom')"><input type="color" class="colorChangeInput" id="msgBorderColor" oninput="updateBorderMsg('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateBorderMsg('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgBorderOpacity" oninput="updateBorderMsg('opacity')">
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateBorderMsg('all')">Append to all</button>
+                    </div>
+                </div>
+                <div class="borderCornerMenu borderCornerMenuMsg" data-active="false">
+                    <div class="inputNumBigCont">
+                        <input type="number" class="inputNumBig inputNumRmvArrows" value="15" min="1" id="msgCornerRadius" oninput="updateCornerMsg('corner')">
+                        <div class="inputNumArrowCont">
+                            <button class="inputNumArrow icon" onclick="updateNum(event, '+')">&#xE971;</button>
+                            <button class="inputNumArrow icon" onclick="updateNum(event, '-')">&#xE972;</button>
+                        </div>
+                    </div>
+                    <div class="bigBtnCont borderAppendAllCont">
+                        <button class="bigBtn borderAppendAllBtn" onclick="updateCornerMsg('all')">Append to all</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Block-Shadow</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF5ED;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="shadowColGrid">
+                    <div class="shadowCol shadowColMsg" data-delete-active="false"></div>
+                    <button class="shadowAdd icon" onclick="addShadowMsg()">&#xE710;</button>
+                    <button class="shadowRemove icon" onclick="removeSwitchShadowMsg()">&#xE74D;</button>
+                </div>
+                <div class="shadowSettingMenu shadowSettingsMsg" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">expand:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <button class="bigBtn msgShadowInset" onclick="if(this.getAttribute('data-active') === 'false') {this.setAttribute('data-active', 'true')} else {this.setAttribute('data-active', 'false')} updateShadowMsg();" data-active="false">Inset</button>
+                    <div class="shadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateShadowMsg('colorType', 'custom')"><input type="color" class="colorChangeInput" id="msgShadowColor" oninput="updateShadowMsg('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateShadowMsg('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgShadowOpacity" oninput="updateShadowMsg('opacity')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Sizing & Spacing</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE740;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="spacingGridCont">
+                    <div class="spacingGrid spacingGridMsg">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OT')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OL')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OR')">
+                        <input type="number" class="spacingGridNum spacingGridOuter" value="0" oninput="updateMsgSpacing('OB')">
+                        <div class="spacingGridMid">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IT')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IL')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IR')">
+                            <input type="number" class="spacingGridNum spacingGridInner" value="0" oninput="updateMsgSpacing('IB')">
+                        </div>
+                    </div>
+                </div>
+                <div class="sizingRow selectItemRow msgSizingRow">
+                    <button onclick="updateMsgSizing('stretch')" data-active="false">Full</button>
+                    <button class="icon" onclick="updateMsgSizing('flex-start')" data-active="false">&#xE8E4;</button>
+                    <button class="icon" onclick="updateMsgSizing('center')" data-active="false">&#xE8E3;</button>
+                    <button class="icon" onclick="updateMsgSizing('flex-end')" data-active="false">&#xE8E2;</button>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Font</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE8D2;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE8D2;</span>
+                    <input class="descrInput" type="text" class="fontFam" value="Arial" id="msgFontFamInp" oninput="updateMsgFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE8E9;</span>
+                    <input class="descrInput" type="number" class="fontSize" value="14" id="msgFontSizeInp" oninput="updateMsgFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE8DD;</span>
+                    <input class="descrInput" type="number" class="fontWeight" value="400" id="msgFontWeightInp" oninput="updateMsgFont()">
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE76F;</span>
+                    <input class="descrInput" type="number" class="fontLineHeight" value="16" id="msgFontHeightInp" oninput="updateMsgFont()">
+                    <button class="autoBtn fontHeightAutoBtn msgFontHeightAutoBtn" data-active="true" onclick="updateMsgFont('autoheight')">auto</button>
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE75D;</span>
+                    <input class="descrInput" type="number" class="fontLetterSpacing" value="0" id="msgFontSpaceInp" oninput="updateMsgFont()">
+                </div>
+                <div class="fontStyleRow msgFontStyleRow selectItemRow">
+                    <button onclick="updateMsgFont('style')" data-active="false">T</button>
+                    <button onclick="updateMsgFont('style')" data-active="false">T</button>
+                    <button onclick="updateMsgFont('style')" data-active="false">T</button>
+                    <button onclick="updateMsgFont('style')" data-active="false">T</button>
+                </div>
+                <div class="fontAlignRow msgFontAlignRow selectItemRow">
+                    <button class="icon" onclick="updateMsgFont('align')" data-active="false" data-value="left">&#xE8E4;</button>
+                    <button class="icon" onclick="updateMsgFont('align')" data-active="false" data-value="center">&#xE8E3;</button>
+                    <button class="icon" onclick="updateMsgFont('align')" data-active="false" data-value="right">&#xE8E2;</button>
+                </div>
+                <div class="fontColorMsgMenu">
+                    <div class="colorChangeCont">
+                        <div class="colorChangeType selectItemRow">
+                            <button class="icon" onclick="updateMsgFont('colorType', 'custom')" data-active="true"><input type="color" class="colorChangeInput" id="msgFontColor" oninput="updateMsgFont('color')"> &#xF354;</button>
+                            <button class="icon" onclick="updateMsgFont('colorType', 'twitch')" data-active="false">&#xEA8C;</button>
+                        </div>
+                        <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgFontOpacity" oninput="updateMsgFont('opacity')">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Shadow</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xF5ED;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="fontShadowColGrid">
+                    <div class="fontShadowCol fontShadowColMsg" data-delete-active="false"></div>
+                    <button class="fontShadowAdd icon" onclick="addFontShadowMsg()">&#xE710;</button>
+                    <button class="fontShadowRemove icon" onclick="removeSwitchFontShadowMsg()">&#xE74D;</button>
+                </div>
+                <div class="fontShadowSettingMenu fontShadowSettingsMsg" data-active="false">
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">x:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                        <div class="numCont">
+                            <span class="numContDescr">y:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="inputNumRow">
+                        <div class="numCont">
+                            <span class="numContDescr">blur:</span>
+                            <input class="numContInput" type="number" value="0" oninput="updateFontShadowMsg()">
+                            <span class="numContUnit">px</span>
+                        </div>
+                    </div>
+                    <div class="fontShadowColorMenu">
+                        <div class="colorChangeCont">
+                            <div class="colorChangeType selectItemRow">
+                                <button class="icon" onclick="updateFontShadowMsg('colorType', 'custom')"><input type="color" class="colorChangeInput" id="msgFontShadowColor" oninput="updateFontShadowMsg('color')"> &#xF354;</button>
+                                <button class="icon" onclick="updateFontShadowMsg('colorType', 'twitch')">&#xEA8C;</button>
+                            </div>
+                            <input type="range" class="colorChangeOpacity" value="255" min="0" max="255" step="1" id="msgFontShadowOpacity" oninput="updateFontShadowMsg('opacity')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Text-Content</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xE943;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="contentRow">
+                    <input type="text" class="contentInp msgContentInp" oninput="updateMsgContent()" id="msgContentTxt">
+                </div>
+                <div class="contentHelpList">
+                    <table>
+                        <tr>
+                            <th>{streamer}</th>
+                            <td>name of the streamer in which chat the message got send</td>
+                        </tr>
+                        <tr>
+                            <th>{usn}</th>
+                            <td>username</td>
+                        </tr>
+                        <tr>
+                            <th>{msg}</th>
+                            <td>content of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{h}</th>
+                            <td>hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{hh}</th>
+                            <td>2-digit hour of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{m}</th>
+                            <td>minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{mm}</th>
+                            <td>2-digit minute of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{s}</th>
+                            <td>second of the message</td>
+                        </tr>
+                        <tr>
+                            <th>{ss}</th>
+                            <td>2-digit second of the message</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="setting" data-open="false">
+            <div class="settingHeader">
+                <h2>Emotes</h2>
+                <div class="settingHeaderIconCont">
+                    <span class="settingHeaderIcon icon">&#xE8BD;</span>
+                    <span class="settingHeaderIcon icon">&#xE76C;</span>
+                    <span class="settingHeaderIcon icon">&#xED54;</span>
+                </div>
+            </div>
+            <div class="settingOptions">
+                <div class="descrInputRow">
+                    <span class="descrIcon icon">&#xE740;</span>
+                    <input class="descrInput" type="number" class="emoteSize" id="msgEmoteSizeInp" oninput="updateMsgEmotes()">
+                    <button class="autoBtn emoteSizeAutoBtn" data-active="true" onclick="updateMsgEmotes('autosize')">auto</button>
+                </div>
+                <div class="descrInputRow emoteAlignRow">
+                    <span class="descrIcon icon">&#xE76F;</span>
+                    <button class="icon emoteAlignBtn" onclick="updateMsgEmotes('vAlign')" data-active="false" data-value="top">&#xE74A;</button>
+                    <button class="icon emoteAlignBtn" onclick="updateMsgEmotes('vAlign')" data-active="false" data-value="middle">&#xE8E3;</button>
+                    <button class="icon emoteAlignBtn" onclick="updateMsgEmotes('vAlign')" data-active="false" data-value="bottom">&#xE74B;</button>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <script src="Script/loadSettings.js"></script>
+    <script src="Script/decompileFinal.js"></script>
+</body>
+</html>

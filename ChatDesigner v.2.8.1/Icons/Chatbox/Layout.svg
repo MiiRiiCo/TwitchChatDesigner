@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_15);
+      }
+
+      .cls-2 {
+        fill: url(#Unbenannter_Verlauf_15-5);
+      }
+
+      .cls-3 {
+        fill: url(#Unbenannter_Verlauf_15-6);
+      }
+
+      .cls-4 {
+        fill: none;
+        stroke: url(#Unbenannter_Verlauf_15-4);
+        stroke-miterlimit: 10;
+        stroke-width: 24px;
+      }
+
+      .cls-5 {
+        fill: url(#Unbenannter_Verlauf_15-3);
+      }
+
+      .cls-6 {
+        fill: url(#Unbenannter_Verlauf_15-2);
+        opacity: .4;
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_15" data-name="Unbenannter Verlauf 15" x1="300.77" y1="216.94" x2="435.8" y2="-16.95" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff8000"/>
+      <stop offset="1" stop-color="#ffc080"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_15-2" data-name="Unbenannter Verlauf 15" x1="252.78" y1="533.23" x2="454.95" y2="183.06" xlink:href="#Unbenannter_Verlauf_15"/>
+    <linearGradient id="Unbenannter_Verlauf_15-3" data-name="Unbenannter Verlauf 15" x1="-48.95" y1="-259.24" x2="225.52" y2="-100.78" gradientTransform="translate(0 560)" xlink:href="#Unbenannter_Verlauf_15"/>
+    <linearGradient id="Unbenannter_Verlauf_15-4" data-name="Unbenannter Verlauf 15" x1="56.95" y1="133.86" x2="119.92" y2="24.79" xlink:href="#Unbenannter_Verlauf_15"/>
+    <linearGradient id="Unbenannter_Verlauf_15-5" data-name="Unbenannter Verlauf 15" x1="38.8" y1="123.39" x2="101.78" y2="14.31" xlink:href="#Unbenannter_Verlauf_15"/>
+    <linearGradient id="Unbenannter_Verlauf_15-6" data-name="Unbenannter Verlauf 15" x1="91.55" y1="153.84" x2="154.53" y2="44.77" xlink:href="#Unbenannter_Verlauf_15"/>
+  </defs>
+  <path class="cls-1" d="m280,0h168c35.32,0,64,28.68,64,64v104H216v-104C216,28.68,244.68,0,280,0Z"/>
+  <path class="cls-6" d="m216,216h296v232c0,35.32-28.68,64-64,64h-232V216h0Z"/>
+  <path class="cls-5" d="m0,280h168c35.32,0,64,28.68,64,64v104H-64v-104C-64,308.68-35.32,280,0,280Z" transform="translate(-280 448) rotate(-90)"/>
+  <g>
+    <path class="cls-4" d="m47.87,121.69c0-40.77,40.85-73.83,91.24-73.83"/>
+    <polygon class="cls-2" points="95.74 107.69 47.87 190.58 0 107.69 95.74 107.69"/>
+    <polygon class="cls-3" points="125.11 95.74 208 47.87 125.11 0 125.11 95.74"/>
+  </g>
+</svg>

@@ -1,0 +1,26 @@
+%!Adobe-FontList 1.23
+%Locale:0x407
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:SegoeFluentIcons
+FamilyName:Segoe Fluent Icons
+StyleName:Regular
+FullName:Segoe Fluent Icons
+MenuName:Segoe Fluent Icons
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\mirco\OneDrive\Desktop\Chat Designer Projekt\ChatDesigner\Font\Segoe Fluent Icons.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:408752
+FileModTime:1681713018
+WeightClass:400
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Segoe Fluent Icons
+NameArray:0,Win,1,Segoe Fluent Icons
+%EndFont
+
