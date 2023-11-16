@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Unbenannter_Verlauf_2-2);
+      }
+
+      .cls-2 {
+        fill: url(#Unbenannter_Verlauf_6-2);
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: url(#Unbenannter_Verlauf_6);
+        stroke-linejoin: round;
+        stroke-width: 48px;
+      }
+
+      .cls-4 {
+        fill: url(#Unbenannter_Verlauf_2);
+      }
+
+      .cls-5 {
+        fill: url(#Unbenannter_Verlauf_5);
+      }
+
+      .cls-6 {
+        fill: url(#Unbenannter_Verlauf_6-3);
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf_2" data-name="Unbenannter Verlauf 2" x1="186" y1="-943.24" x2="326" y2="-700.76" gradientTransform="translate(0 -334) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#999"/>
+      <stop offset="1" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_2-2" data-name="Unbenannter Verlauf 2" x1="186" y1="-479.25" x2="326" y2="-236.75" xlink:href="#Unbenannter_Verlauf_2"/>
+    <linearGradient id="Unbenannter_Verlauf_6" data-name="Unbenannter Verlauf 6" x1="441.49" y1="-750.82" x2="410.51" y2="-429.18" gradientTransform="translate(0 -334) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#999"/>
+      <stop offset="1" stop-color="#e6e6e6"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_6-2" data-name="Unbenannter Verlauf 6" x1="436.11" y1="-751.34" x2="405.13" y2="-429.7" xlink:href="#Unbenannter_Verlauf_6"/>
+    <linearGradient id="Unbenannter_Verlauf_6-3" data-name="Unbenannter Verlauf 6" x1="446.87" y1="-750.3" x2="415.89" y2="-428.66" xlink:href="#Unbenannter_Verlauf_6"/>
+    <linearGradient id="Unbenannter_Verlauf_5" data-name="Unbenannter Verlauf 5" x1="138.01" y1="296.56" x2="258.35" y2="88.11" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00ff6a"/>
+      <stop offset="1" stop-color="#80ffb4"/>
+    </linearGradient>
+  </defs>
+  <path class="cls-4" d="m24,464h464c13.25,0,24,10.75,24,24h0c0,13.25-10.75,24-24,24H24c-13.25,0-24-10.75-24-24h0c0-13.25,10.75-24,24-24Z"/>
+  <path class="cls-1" d="m24,0h464c13.25,0,24,10.75,24,24h0c0,13.25-10.75,24-24,24H24C10.75,48,0,37.25,0,24h0C0,10.75,10.75,0,24,0Z"/>
+  <g>
+    <line class="cls-3" x1="426" y1="329.89" x2="426" y2="182.11"/>
+    <polygon class="cls-2" points="485.84 312.38 426 416 366.16 312.38 485.84 312.38"/>
+    <polygon class="cls-6" points="485.84 199.62 426 96 366.16 199.62 485.84 199.62"/>
+  </g>
+  <path class="cls-5" d="m234.12,243.78l-10.35-27.19h-88.06l-10.35,27.78c-4.04,10.84-7.49,18.15-10.35,21.95s-7.54,5.69-14.04,5.69c-5.52,0-10.39-2.02-14.63-6.05-4.23-4.04-6.36-8.62-6.36-13.74,0-2.95.49-6.01,1.48-9.16.99-3.15,2.61-7.54,4.88-13.15l55.41-140.67c1.58-4.04,3.47-8.89,5.69-14.55s4.58-10.37,7.09-14.11c2.51-3.74,5.81-6.77,9.9-9.09,4.09-2.31,9.14-3.47,15.15-3.47s11.21,1.16,15.3,3.47c4.09,2.32,7.39,5.3,9.9,8.94,2.51,3.65,4.63,7.56,6.36,11.75,1.72,4.19,3.91,9.78,6.57,16.77l56.59,139.78c4.43,10.64,6.65,18.38,6.65,23.2s-2.09,9.63-6.28,13.82c-4.19,4.19-9.23,6.28-15.15,6.28-3.45,0-6.4-.62-8.86-1.85-2.46-1.23-4.53-2.9-6.21-5.03-1.67-2.11-3.47-5.37-5.39-9.75-1.92-4.38-3.57-8.25-4.95-11.6h0Zm-86.88-60.14h64.71l-32.66-89.39-32.06,89.39h0Z"/>
+</svg>
