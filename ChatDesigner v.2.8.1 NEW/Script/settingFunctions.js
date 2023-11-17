@@ -6922,8 +6922,10 @@ function decompileOthEmotes() {
                 var msg = cbxW.querySelector(".msg");
                 if (settings.othEmotes[`${role}`].value.auto === true) {
                     msg.style.setProperty("--othEmoteHeight", `${settings.msgFont[`${role}`].value.size}px`);
+                    msg.style.setProperty("--othEmoteOnlyHeight", `${settings.msgFont[`${role}`].value.size}px`)
                 } else if (settings.othEmotes[`${role}`].value.auto === false) {
                     msg.style.setProperty("--othEmoteHeight", `${settings.othEmotes[`${role}`].value.height}px`)
+                    msg.style.setProperty("--othEmoteOnlyHeight", `${settings.othEmotes[`${role}`].value.onlyheight}px`)
                 }
                 
                 msg.style.setProperty("--othEmoteVPos", settings.othEmotes[`${role}`].value.linePos);
@@ -6951,6 +6953,7 @@ function updateOthEmotes(type) {
     }
 
     settings.othEmotes[`${activeRole}`].value.height = document.querySelector("#othEmoteSizeInp").value;
+    settings.othEmotes[`${activeRole}`].value.onlyheight = document.querySelector("#othEmoteOnlySizeInp").value;
 
     decompileOthEmotes();
 }
@@ -11788,6 +11791,7 @@ function saveSettings() {
                     value: {
                         auto: ${settings.othEmotes.user.value.auto},
                         height: ${settings.othEmotes.user.value.height}, // In px
+                        onlyheight: ${settings.othEmotes.user.value.onlyheight}, // In px
                         linePos: "${settings.othEmotes.user.value.linePos}" // top/middle/bottom
                     },
                     active: ${settings.othEmotes.user.active}
@@ -11796,6 +11800,7 @@ function saveSettings() {
                     value: {
                         auto: ${settings.othEmotes.sub.value.auto},
                         height: ${settings.othEmotes.sub.value.height}, // In px
+                        onlyheight: ${settings.othEmotes.sub.value.onlyheight}, // In px
                         linePos: "${settings.othEmotes.sub.value.linePos}" // top/middle/bottom
                     },
                     active: ${settings.othEmotes.sub.active}
@@ -11804,6 +11809,7 @@ function saveSettings() {
                     value: {
                         auto: ${settings.othEmotes.vip.value.auto},
                         height: ${settings.othEmotes.vip.value.height}, // In px
+                        onlyheight: ${settings.othEmotes.vip.value.onlyheight}, // In px
                         linePos: "${settings.othEmotes.vip.value.linePos}" // top/middle/bottom
                     },
                     active: ${settings.othEmotes.vip.active}
@@ -11812,6 +11818,7 @@ function saveSettings() {
                     value: {
                         auto: ${settings.othEmotes.mod.value.auto},
                         height: ${settings.othEmotes.mod.value.height}, // In px
+                        onlyheight: ${settings.othEmotes.mod.value.onlyheight}, // In px
                         linePos: "${settings.othEmotes.mod.value.linePos}" // top/middle/bottom
                     },
                     active: ${settings.othEmotes.mod.active}

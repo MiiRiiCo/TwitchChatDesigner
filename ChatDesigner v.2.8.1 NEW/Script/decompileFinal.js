@@ -17,7 +17,7 @@ if (settings.genChatDirection === "up") {
 var allBadges;
 
 // Sende eine GET-Anfrage an die URL
-fetch("https://badges.twitch.tv/v1/badges/global/display")
+fetch("https://api.twitch.tv/helix/chat/badges/global")
 
     // Wenn die Anfrage erfolgreich ist, verarbeite die Antwort als JSON
     .then(function(response) {
@@ -26,6 +26,7 @@ fetch("https://badges.twitch.tv/v1/badges/global/display")
     // Wenn die JSON-Verarbeitung erfolgreich ist, speichere den JSON Code in eine Variable
     .then(function(json) {
         allBadges = json;
+        console.log('Badges erfolgreich gefetcht', allBadges);
     });
     
     // Wenn die JSON-Verarbeitung erfolgreich ist, speichere den JSON Code in eine Variable
@@ -40,27 +41,70 @@ var allRoles = [
 ]
 
 client.on("message", (streamer, meta, message, self) => {
-    var channelBadges;
-
-    fetch(`https://badges.twitch.tv/v1/badges/channels/${meta["room-id"]}/display`)
-
-        // Wenn die Anfrage erfolgreich ist, verarbeite die Antwort als JSON
-        .then(function(response) {
+    let channelBadges;
+    let bttvGlobal;
+    let bttvChannel;
+    var replacedEmoteNames = [];
+    
+    // fetch BTTV Global and Channel Emotes
+    const fetchBetterTTV = async () => {
+        try {
+            const [globalResponse, channelResponse] = await Promise.all([
+                fetch('https://api.betterttv.net/3/cached/emotes/global'),
+                meta["room-id"] ? fetch(`https://api.betterttv.net/3/cached/users/twitch/${meta["room-id"]}`) : null
+            ]);
+    
+            if (!globalResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für BetterTTV Global: ${globalResponse.status}`);
+            }
+            bttvGlobal = await globalResponse.json();
+    
+            if (channelResponse && !channelResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für BetterTTV Kanal: ${channelResponse.status}`);
+            }
+            bttvChannel = channelResponse ? await channelResponse.json() : null;
+    
+            return { bttvGlobal, bttvChannel };
+        } catch (error) {
+            throw error;
+        }
+    };
+    
+    // fetch Twitch Badges
+    const fetchTwitchBadges = async () => {
+        try {
+            const response = await fetch(`https://api.twitch.tv/helix/chat/badges?broadcaster_id=${meta["streamer-id"]}`);
+            if (!response.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode: ${response.status}`);
+            }
             return response.json();
-        })
-
-        // Wenn die JSON-Verarbeitung erfolgreich ist, speichere den JSON Code in eine Variable
-        .then(function(json) {
-            channelBadges = json;
-        })
-        
-        .then(function() {
-            decompileAll()
-        })
-
-        .catch(function() {
-            decompileAll()
-        })
+        } catch (error) {
+            throw new Error('Fehler beim Fetchen von Twitch Badges:', error);
+        }
+    };
+    
+    // start the fetch and after fetch run decompileAll()
+    const fetchData = async () => {
+        try {
+            const [badges, { bttvGlobal, bttvChannel }] = await Promise.all([
+                fetchTwitchBadges(),
+                fetchBetterTTV(),
+            ]);
+    
+            channelBadges = badges;
+    
+            decompileAll();
+    
+            const bttvEmoteIds = extractBetterTTVEmoteIds(message, bttvGlobal);
+    
+            const bttvChannelEmoteIds = extractBetterTTVChannelEmoteIds(message, bttvChannel);
+    
+        } catch (error) {
+            decompileAll();
+        }
+    };
+    
+    fetchData();
 
     function decompileAll() {
         var usernameAllowed = true,
@@ -130,35 +174,67 @@ client.on("message", (streamer, meta, message, self) => {
                 cbx = document.createElement("div"),
                 usn = document.createElement("p"),
                 msg = document.createElement("p"),
-                emoteCol = [],
                 messageFin = "";
+            
+            const twitchEmoteRanges = extractTwitchEmote(meta);
+            const betterTTVEmoteIds = extractBetterTTVEmoteIds(message, bttvGlobal);
+            const betterTTVUrls = generateBetterTTVEmoteUrls(betterTTVEmoteIds);
+            const betterTTVChannelEmoteIds = extractBetterTTVChannelEmoteIds(message, bttvChannel);
+            const betterTTVChannelUrls = generateBetterTTVChannelEmoteUrls (betterTTVChannelEmoteIds);
+            
+            messageFin += message;
 
-            if (meta["emotes"]) {
-                emoteCol = Object.entries(meta["emotes"]);
-            }
-
-            var emoteRanges = [];
-            for (let i = 0; i < emoteCol.length; i++) {
-                for (let j = 0; j < emoteCol[i][1].length; j++) {
-                    emoteRanges.push({
-                        name: emoteCol[i][0],
-                        from: parseInt(emoteCol[i][1][j].slice(0, emoteCol[i][1][j].indexOf("-"))),
-                        to: parseInt(emoteCol[i][1][j].slice(emoteCol[i][1][j].indexOf("-") + 1, emoteCol[i][1][j].length))
-                    });
+            // Überprüfe, ob Twitch-Emotes ersetzt wurden
+            if (!replacedEmoteNames.includes('Twitch')) {
+                // Versuche Twitch-Emotes zu ersetzen
+                messageFin = replaceTwitchEmotes(messageFin, twitchEmoteRanges);
+            
+                // Überprüfe, ob Twitch-Emotes ersetzt wurden
+                if (replacedEmoteNames.includes('Twitch')) {
+                    // Twitch-Emotes wurden erfolgreich ersetzt
+                    console.log('Twitch-Emotes wurden erfolgreich ersetzt');
+                } else {
+                    // Twitch-Emotes konnten nicht ersetzt werden, versuche BetterTTV Channel Emotes
+                    messageFin = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
                 }
             }
 
-            emoteRanges.sort(function(a, b) {
-                var x = b["from"]; var y = a["from"];
-                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-            });
+            console.log('replacedEmoteNames nach Twitch:', replacedEmoteNames);
 
-            messageFin += message;
+            // Überprüfe, ob BetterTTV Global Emotes ersetzt wurden
+            if (!replacedEmoteNames.includes('BetterTTVGlobal')) {
+                messageFin = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
 
-            for (var i = 0; i < emoteRanges.length; i++) {
-                messageFin = messageFin.substring(0, emoteRanges[i].from) + `<img class="emt" src="https://static-cdn.jtvnw.net/emoticons/v2/${emoteRanges[i].name}/default/dark/4.0">` + messageFin.substring(emoteRanges[i].to + 1);
+                // Emote-Name zur Liste der ersetzen Emote-Namen hinzufügen
+                replacedEmoteNames.push('BetterTTVGlobal');
             }
-            
+
+            // Debugging-Ausgabe für replacedEmoteNames nach der Verarbeitung von BetterTTV Global Emotes
+            console.log('replacedEmoteNames nach BetterTTVGlobal:', replacedEmoteNames);
+
+            // Überprüfe, ob BetterTTV Channel Emotes ersetzt wurden
+            if (!replacedEmoteNames.includes('BetterTTVChannel')) {
+                messageFin = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
+
+                // Emote-Name zur Liste der ersetzen Emote-Namen hinzufügen
+                replacedEmoteNames.push('BetterTTVChannel');
+            }
+
+            // Debugging-Ausgabe für replacedEmoteNames nach der Verarbeitung von BetterTTV Channel Emotes
+            console.log('replacedEmoteNames nach BetterTTVChannel:', replacedEmoteNames);
+
+            // Setze die Liste nur zurück, wenn alle Arten von Emotes verarbeitet wurden
+            if (
+                replacedEmoteNames.includes('Twitch') &&
+                replacedEmoteNames.includes('BetterTTVGlobal') &&
+                replacedEmoteNames.includes('BetterTTVChannel')
+            ) {
+                replacedEmoteNames = [];
+            }
+
+            // Debugging-Ausgabe für replacedEmoteNames nach dem Zurücksetzen
+            console.log('replacedEmoteNames nach Zurücksetzen:', replacedEmoteNames);
+
             cbxW.className = "cbxW user";
             cbx.className = "cbx";
 
@@ -1208,16 +1284,21 @@ client.on("message", (streamer, meta, message, self) => {
                     }
 
                     // settings.othEmotes[`${role}`].value
-
                     if (settings.othEmotes[`${role}`].active === true) {
-
+                        if (msg.innerText.trim() === '' && 
+                            (twitchEmoteRanges.length === 1 || betterTTVUrls.length === 1 || betterTTVChannelUrls.length === 1)) {
+                            msg.style.setProperty("--othEmoteHeight", `${settings.othEmotes[`${role}`].value.onlyheight}px`);
+                        } else {
+                        
                         if (settings.othEmotes[`${role}`].value.auto === true) {
                             msg.style.setProperty("--othEmoteHeight", `${settings.msgFont[`${role}`].value.size}px`);
                         } else if (settings.othEmotes[`${role}`].value.auto === false) {
                             msg.style.setProperty("--othEmoteHeight", `${settings.othEmotes[`${role}`].value.height}px`)
                         }
 
-                        msg.style.setProperty("--othEmoteVPos", settings.othEmotes[`${role}`].value.linePos);   
+                        msg.style.setProperty("--othEmoteVPos", settings.othEmotes[`${role}`].value.linePos); 
+                       
+                        }
                     }
 
                     // settings.othBadges 2
@@ -1243,6 +1324,190 @@ client.on("message", (streamer, meta, message, self) => {
                     document.querySelector("html").setAttribute("lang", `${settings.othHyphens.lang}`);
                 }
             });
+        }
+    }
+    // check and generate URL for Twitch Emotes
+    function extractTwitchEmote (meta) {
+        var twitchEmoteRanges = [];
+
+        if (meta["emotes"]) {
+            emoteCol = Object.entries(meta["emotes"]);
+    
+            for (let i = 0; i < emoteCol.length; i++) {
+                for (let j = 0; j < emoteCol[i][1].length; j++) {
+                    const emoteUrl = `https://static-cdn.jtvnw.net/emoticons/v2/${emoteCol[i][0]}/default/dark/4.0`;
+                    twitchEmoteRanges.push({
+                        name: emoteCol[i][0],
+                        from: parseInt(emoteCol[i][1][j].slice(0, emoteCol[i][1][j].indexOf("-"))),
+                        to: parseInt(emoteCol[i][1][j].slice(emoteCol[i][1][j].indexOf("-") + 1, emoteCol[i][1][j].length)),
+                        url: emoteUrl,
+                    });
+                }
+            }
+        }
+        twitchEmoteRanges.sort(function(a, b) {
+            var x = b["from"]; var y = a["from"];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+        console.log('Twitch URL generiert', twitchEmoteRanges);
+
+        return twitchEmoteRanges;
+    }
+    // check for bttv Global Emotes
+    function extractBetterTTVEmoteIds(message, bttvGlobal) {
+        const betterTTVEmoteIds = [];
+    
+        // Überprüfe, ob bttvGlobal definiert ist und die Methode find hat
+        if (bttvGlobal && Array.isArray(bttvGlobal)) {
+            bttvGlobal.forEach(emoteInfo => {
+                const emoteCode = emoteInfo.code;
+                let emoteIndex = message.indexOf(emoteCode);
+    
+                while (emoteIndex !== -1) {
+                    // Überprüfe, ob vor und nach dem Emote ein Leerzeichen steht
+                    if (
+                        (emoteIndex === 0 || /\s/.test(message[emoteIndex - 1])) &&
+                        (emoteIndex + emoteCode.length === message.length || /\s/.test(message[emoteIndex + emoteCode.length]))
+                    ) {
+                        betterTTVEmoteIds.push({
+                            id: emoteInfo.id,
+                            name: emoteInfo.code,
+                            start: emoteIndex,
+                            end: emoteIndex + emoteCode.length,
+                        });
+                    }
+    
+                    // Suche nach weiteren Vorkommen des Emotes im Text
+                    emoteIndex = message.indexOf(emoteCode, emoteIndex + 1);
+                }
+            });
+    
+            console.log('BetterTTV ID generiert', betterTTVEmoteIds);
+        }
+    
+        return betterTTVEmoteIds;
+    }
+    // check for bttv Channel Emotes
+    function extractBetterTTVChannelEmoteIds(message, bttvChannel) {
+        const betterTTVChannelEmoteIds = [];
+        
+        // Überprüfen, ob bttvChannel definiert ist und die Emotes enthält
+        if (bttvChannel && bttvChannel.channelEmotes && Array.isArray(bttvChannel.channelEmotes)) {
+            extractEmotes(bttvChannel.channelEmotes);
+        }
+        
+        if (bttvChannel && bttvChannel.sharedEmotes && Array.isArray(bttvChannel.sharedEmotes)) {
+                extractEmotes(bttvChannel.sharedEmotes);
+        }
+        
+        return betterTTVChannelEmoteIds;
+        
+        // Hilfsfunktion zum Extrahieren von Emotes
+        function extractEmotes(emotesArray) {
+            emotesArray.forEach(emoteInfo => {
+                const emoteCode = emoteInfo.code;
+                let emoteIndex = message.indexOf(emoteCode);
+        
+                while (emoteIndex !== -1) {
+                    // Überprüfe, ob vor und nach dem Emote ein Leerzeichen steht
+                    if (
+                        (emoteIndex === 0 || /\s/.test(message[emoteIndex - 1])) &&
+                        (emoteIndex + emoteCode.length === message.length || /\s/.test(message[emoteIndex + emoteCode.length]))
+                    ) {
+                        betterTTVChannelEmoteIds.push({
+                            id: emoteInfo.id,
+                            name: emoteInfo.code,
+                            start: emoteIndex,
+                            end: emoteIndex + emoteCode.length,
+                        });
+                    }
+        
+                emoteIndex = message.indexOf(emoteCode, emoteIndex + 1);
+                }
+            });
+        }
+    }          
+    // generate URL for bttv Global Emotes
+    function generateBetterTTVEmoteUrls(betterTTVEmoteIds) {
+        const betterTTVUrls = [];
+    
+        betterTTVEmoteIds.forEach(emote => {
+            const emoteUrl = `https://cdn.betterttv.net/emote/${emote.id}/3x`;
+            betterTTVUrls.push({
+                id: `bttv_${emote.id}`,
+                url: emoteUrl,
+                start: emote.start,
+                end: emote.end,
+            });
+        });
+        betterTTVUrls.sort((a, b) => b.start - a.start);
+    
+        console.log('BetterTTV URLs generiert', betterTTVUrls);
+    
+        return betterTTVUrls;
+    }
+    // generate URL for bttv Channel Emotes
+    function generateBetterTTVChannelEmoteUrls(betterTTVChannelEmoteIds) {
+        const betterTTVChannelUrls = [];
+    
+        betterTTVChannelEmoteIds.forEach(emote => {
+            const emoteUrl = `https://cdn.betterttv.net/emote/${emote.id}/3x`;
+            betterTTVChannelUrls.push({
+                id: `bttv_${emote.id}`,
+                url: emoteUrl,
+                start: emote.start,
+                end: emote.end,
+                name: emote.name,
+            });
+        });
+        betterTTVChannelUrls.sort((a, b) => b.start - a.start);
+    
+        return betterTTVChannelUrls;
+    }
+
+    function replaceTwitchEmotes(message, twitchEmoteRanges) {
+        twitchEmoteRanges.sort((a, b) => b.from - a.from);
+    
+        twitchEmoteRanges.forEach(emote => {
+                const emoteHTML = `<img class="emt" src="${emote.url}" alt="${emote.url}">`;
+                message = message.substring(0, emote.from) + emoteHTML + message.substring(emote.to + 1);
+                replacedEmoteNames.push(emote.name);
+        });
+        return message;
+    }
+    
+    function replaceBetterTTVGlobalEmotes(message, betterTTVUrls) {
+        betterTTVUrls.forEach(emote => {
+            try {
+                const emoteHTML = `<img class="emt" src="${emote.url}" alt="${emote.url}">`;
+                message = message.substring(0, emote.start) + emoteHTML + message.substring(emote.end + 1);
+            } catch (error) {
+                console.error('Fehler beim Ersetzen von BetterTTV Global Emotes:', error);
+            }
+        });
+        return message;
+    }
+    
+    function replaceBetterTTVChannelEmotes(message, betterTTVChannelUrls) {
+        let emotesReplaced = false;
+    
+        betterTTVChannelUrls.forEach(emote => {
+            const emoteHTML = `<img class="emt" src="${emote.url}" alt="${emote.url}">`;
+    
+            const emoteCode = emote.code || emote.name;
+            if (message.includes(emoteCode)) {
+                console.log('Emote ersetzt:', emote.name);
+                message = message.split(emoteCode).join(emoteHTML);
+                emotesReplaced = true;
+            } else {
+                console.log('Emote nicht gefunden:', emote.name, 'in', message);
+            }
+        });
+    
+        if (emotesReplaced) {
+            return message;
+        } else {
+            return message;
         }
     }
 });

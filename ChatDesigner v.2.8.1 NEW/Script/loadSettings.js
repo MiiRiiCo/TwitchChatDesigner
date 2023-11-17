@@ -2210,6 +2210,7 @@ function loadingData() {
     // loading Others > Emotes
 
     document.querySelector("#othEmoteSizeInp").value = settings.othEmotes[`${loadingRole}`].value.height;
+    document.querySelector("#othEmoteOnlySizeInp").value = settings.othEmotes[`${loadingRole}`].value.onlyheight;
     document.querySelector(".emoteSizeAutoBtn").setAttribute("data-active", settings.othEmotes[`${loadingRole}`].value.auto);
     document.querySelectorAll(".emoteAlignBtn")[0].setAttribute("data-active", "false");
     document.querySelectorAll(".emoteAlignBtn")[1].setAttribute("data-active", "false");
