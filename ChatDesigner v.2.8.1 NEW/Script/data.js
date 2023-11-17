@@ -810,19 +810,19 @@
             },
             usnContent: {
                 user: {
-                    value: "{usn}",
+                    value: "{usn} {badges}",
                     active: true
                 },
                 sub: {
-                    value: "{usn} ⭐",
+                    value: "{usn} {badges} ⭐",
                     active: true
                 },
                 vip: {
-                    value: "{usn} 💎",
+                    value: "{usn} {badges} 💎",
                     active: true
                 },
                 mod: {
-                    value: "{usn} ⚔️",
+                    value: "{usn} {badges} ⚔️",
                     active: true
                 }
             },

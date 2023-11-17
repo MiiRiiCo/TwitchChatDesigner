@@ -45,6 +45,8 @@ client.on("message", (streamer, meta, message, self) => {
     let bttvGlobal;
     let bttvChannel;
     var replacedEmoteNames = [];
+
+    console.log(meta);
     
     // fetch BTTV Global and Channel Emotes
     const fetchBetterTTV = async () => {
@@ -73,7 +75,7 @@ client.on("message", (streamer, meta, message, self) => {
     // fetch Twitch Badges
     const fetchTwitchBadges = async () => {
         try {
-            const response = await fetch(`https://api.twitch.tv/helix/chat/badges?broadcaster_id=${meta["streamer-id"]}`);
+            const response = await fetch(`https://api.twitch.tv/helix/chat/badges?broadcaster_id=${meta["room-id"]}`);
             if (!response.ok) {
                 throw new Error(`Fehlerhafter API-Antwortcode: ${response.status}`);
             }
