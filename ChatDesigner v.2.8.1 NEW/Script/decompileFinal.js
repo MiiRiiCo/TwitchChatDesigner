@@ -180,46 +180,31 @@ client.on("message", (streamer, meta, message, self) => {
             
             messageFin += message;
 
-            // Überprüfe, ob Twitch-Emotes ersetzt wurden
+            // Check if Twitch emotes have been replaced
             if (!replacedEmoteNames.includes('Twitch')) {
-                // Versuche Twitch-Emotes zu ersetzen
                 messageFin = replaceTwitchEmotes(messageFin, twitchEmoteRanges);
             
-                // Überprüfe, ob Twitch-Emotes ersetzt wurden
                 if (replacedEmoteNames.includes('Twitch')) {
-                    // Twitch-Emotes wurden erfolgreich ersetzt
                     console.log('Twitch-Emotes wurden erfolgreich ersetzt');
                 } else {
-                    // Twitch-Emotes konnten nicht ersetzt werden, versuche BetterTTV Channel Emotes
                     messageFin = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
                 }
             }
 
-            console.log('replacedEmoteNames nach Twitch:', replacedEmoteNames);
-
-            // Überprüfe, ob BetterTTV Global Emotes ersetzt wurden
+            // Check if bttv emotes have been replaced
             if (!replacedEmoteNames.includes('BetterTTVGlobal')) {
                 messageFin = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
 
-                // Emote-Name zur Liste der ersetzen Emote-Namen hinzufügen
                 replacedEmoteNames.push('BetterTTVGlobal');
             }
 
-            // Debugging-Ausgabe für replacedEmoteNames nach der Verarbeitung von BetterTTV Global Emotes
-            console.log('replacedEmoteNames nach BetterTTVGlobal:', replacedEmoteNames);
-
-            // Überprüfe, ob BetterTTV Channel Emotes ersetzt wurden
             if (!replacedEmoteNames.includes('BetterTTVChannel')) {
                 messageFin = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
 
-                // Emote-Name zur Liste der ersetzen Emote-Namen hinzufügen
                 replacedEmoteNames.push('BetterTTVChannel');
             }
 
-            // Debugging-Ausgabe für replacedEmoteNames nach der Verarbeitung von BetterTTV Channel Emotes
-            console.log('replacedEmoteNames nach BetterTTVChannel:', replacedEmoteNames);
-
-            // Setze die Liste nur zurück, wenn alle Arten von Emotes verarbeitet wurden
+            // Only reset the list when all types of emotes have been processed
             if (
                 replacedEmoteNames.includes('Twitch') &&
                 replacedEmoteNames.includes('BetterTTVGlobal') &&
@@ -227,9 +212,6 @@ client.on("message", (streamer, meta, message, self) => {
             ) {
                 replacedEmoteNames = [];
             }
-
-            // Debugging-Ausgabe für replacedEmoteNames nach dem Zurücksetzen
-            console.log('replacedEmoteNames nach Zurücksetzen:', replacedEmoteNames);
 
             cbxW.className = "cbxW user";
             cbx.className = "cbx";
