@@ -71,11 +71,34 @@ client.on("message", (streamer, meta, message, self) => {
             throw error;
         }
     };
+
+/*    const fetch7TV = async () => {
+        try {
+            // Fetch global 7TV emotes
+            const globalResponse = await fetch('https://api.7tv.app/v2/emotes/global');
     
+            if (!globalResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für 7TV Global: ${globalResponse.status}`);
+            }
+            const globalEmotes = await globalResponse.json();
+    
+            // Fetch channel-specific 7TV emotes (replace CHANNEL_ID with the actual channel ID)
+            const channelResponse = await fetch(`https://api.7tv.app/v2/emotes/channel/${meta['room-id']}`);
+            if (!channelResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für 7TV Kanal: ${channelResponse.status}`);
+            }
+            const channelEmotes = await channelResponse.json();
+    
+            return { globalEmotes, channelEmotes };
+        } catch (error) {
+            throw error;
+        }
+   };
+*/    
     // fetch Twitch Badges
     const fetchTwitchBadges = async () => {
         try {
-            const response = await fetch(`https://api.twitch.tv/helix/chat/badges?broadcaster_id=${meta["room-id"]}`);
+            const response = await fetch(`https://api.twitch.tv/helix/chat/badges?broadcaster_id=${meta["streamer-id"]}`);
             if (!response.ok) {
                 throw new Error(`Fehlerhafter API-Antwortcode: ${response.status}`);
             }
@@ -91,6 +114,7 @@ client.on("message", (streamer, meta, message, self) => {
             const [badges, { bttvGlobal, bttvChannel }] = await Promise.all([
                 fetchTwitchBadges(),
                 fetchBetterTTV(),
+                fetch7TV(),
             ]);
     
             channelBadges = badges;
