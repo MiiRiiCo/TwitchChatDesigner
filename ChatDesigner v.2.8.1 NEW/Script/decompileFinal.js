@@ -48,6 +48,8 @@ client.on("message", (streamer, meta, message, self) => {
     let ffzGlobal;
     let ffzChannel;
     var replacedEmoteNames = [];
+
+    console.log(meta);
     
     // fetch BTTV Global and Channel Emotes
     const fetchBetterTTV = async () => {
@@ -72,6 +74,8 @@ client.on("message", (streamer, meta, message, self) => {
             throw error;
         }
     };
+
+    // fetch FFZ Global and Channel Emotes
     const fetchFFZ = async () => {
         try {
             const [globalResponse, channelResponse] = await Promise.all([
@@ -97,6 +101,7 @@ client.on("message", (streamer, meta, message, self) => {
             throw error;
         }
     };
+
     // fetch 7TV Global and Channel Emotes
     const fetch7TV = async () => {
         try {
@@ -120,6 +125,7 @@ client.on("message", (streamer, meta, message, self) => {
             throw error;
         }
     };
+
     // fetch Twitch Badges
     const fetchTwitchBadges = async () => {
         try {
@@ -132,11 +138,32 @@ client.on("message", (streamer, meta, message, self) => {
             throw new Error('Fehler beim Fetchen von Twitch Badges:');
         }
     };
+
+    const fetchPronouns = async () => {
+        try {
+            const response = await fetch(`https://pronouns.alejo.io/api/users/${meta["username"]}`);
+    
+            if (!response.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für Pronouns: ${response.status}`);
+            }
+    
+            const pronounsData = await response.json();
+    
+            console.log('Pronouns Daten:', pronounsData);
+    
+            return pronounsData;
+        } catch (error) {
+            throw error;
+        }
+    };
+    
+
     // start the fetch and after fetch run decompileAll()
     const fetchData = async () => {
         try {
             const [badges, { bttvGlobal, bttvChannel }, { sevenTVGlobal, sevenTVChannel }] = await Promise.all([
                 fetchTwitchBadges(),
+                fetchPronouns(),
                 fetch7TV(),
                 fetchFFZ(),
                 fetchBetterTTV(),
@@ -296,7 +323,7 @@ client.on("message", (streamer, meta, message, self) => {
             if (replacedEmoteNames.length === emoteTypes.length) {
                 replacedEmoteNames = [];
                 replacedEmotesMap.clear();
-            }            
+            } 
             
             cbxW.className = "cbxW user";
             cbx.className = "cbx";
