@@ -17,7 +17,7 @@ if (settings.genChatDirection === "up") {
 var allBadges;
 
 // Sende eine GET-Anfrage an die URL
-fetch("https://api.twitch.tv/helix/chat/badges/global")
+fetch("badges.twitch.tv/v1/badges/global/display")
 
     // Wenn die Anfrage erfolgreich ist, verarbeite die Antwort als JSON
     .then(function(response) {
@@ -123,7 +123,7 @@ client.on("message", (streamer, meta, message, self) => {
     // fetch Twitch Badges
     const fetchTwitchBadges = async () => {
         try {
-            const response = await fetch(`https://api.twitch.tv/helix/chat/badges?broadcaster_id=${meta["room-id"]}`);
+            const response = await fetch(`https://badges.twitch.tv/v1/badges/channels/${meta["room-id"]}/display`);
             if (!response.ok) {
                 throw new Error(`Fehlerhafter API-Antwortcode: ${response.status}`);
             }
@@ -223,6 +223,7 @@ client.on("message", (streamer, meta, message, self) => {
                 msg = document.createElement("p"),
                 messageFin = "";
             
+            //Global variables emoteProcessing.js
             const twitchEmoteRanges = extractTwitchEmote(meta);
             const betterTTVEmoteIds = extractBetterTTVGlobalEmoteIds(message, bttvGlobal);
             const betterTTVUrls = generateBetterTTVGlobalEmoteUrls(betterTTVEmoteIds);
