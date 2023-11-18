@@ -248,10 +248,10 @@ client.on("message", (streamer, meta, message, self) => {
                     messageFin = updatedMessage;
                     replacedEmoteNames.push('Twitch');
                 } else {
-                    // Check if 7TV Channel emotes have been replaced
-                    if (!replacedEmoteNames.includes('7TVChannel')) {
-                        messageFin = replace7TVChannelEmotes(messageFin, sevenTVChannelUrls);
-                        replacedEmoteNames.push('7TVChannel');
+                    // Check if BetterTTV Global emotes have been replaced
+                    if (!replacedEmoteNames.includes('BetterTTVGlobal')) {
+                        messageFin = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
+                        replacedEmoteNames.push('BetterTTVGlobal');
                     }
             
                     // Check if BetterTTV Channel emotes have been replaced
@@ -260,30 +260,30 @@ client.on("message", (streamer, meta, message, self) => {
                         replacedEmoteNames.push('BetterTTVChannel');
                     }
             
+                    // Check if 7TV Global emotes have been replaced
+                    if (!replacedEmoteNames.includes('7TVGlobal')) {
+                        messageFin = replace7TVGlobalEmotes(messageFin, sevenTVGlobalUrls);
+                        replacedEmoteNames.push('7TVGlobal');
+                    }
+            
+                    // Check if 7TV Channel emotes have been replaced
+                    if (!replacedEmoteNames.includes('7TVChannel')) {
+                        messageFin = replace7TVChannelEmotes(messageFin, sevenTVChannelUrls);
+                        replacedEmoteNames.push('7TVChannel');
+                    }
+            
+                    // Check if FFZ Global emotes have been replaced
+                    if (!replacedEmoteNames.includes('FFZGlobal')) {
+                        messageFin = replaceFFZGlobalEmotes(messageFin, ffzGlobalUrls);
+                        replacedEmoteNames.push('FFZGlobal');
+                    }
+            
                     // Check if FFZ Channel emotes have been replaced
                     if (!replacedEmoteNames.includes('FFZChannel')) {
                         messageFin = replaceFFZChannelEmotes(messageFin, ffzChannelUrls);
                         replacedEmoteNames.push('FFZChannel');
                     }
                 }
-            }
-            
-            // Check if bttv global emotes have been replaced
-            if (!replacedEmoteNames.includes('BetterTTVGlobal')) {
-                messageFin = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
-                replacedEmoteNames.push('BetterTTVGlobal');
-            }
-            
-            // Check if 7TV global emotes have been replaced
-            if (!replacedEmoteNames.includes('7TVGlobal')) {
-                messageFin = replace7TVGlobalEmotes(messageFin, sevenTVGlobalUrls);
-                replacedEmoteNames.push('7TVGlobal');
-            }
-            
-            // Check if FFZ Global emotes have been replaced
-            if (!replacedEmoteNames.includes('FFZGlobal')) {
-                messageFin = replaceFFZGlobalEmotes(messageFin, ffzGlobalUrls);
-                replacedEmoteNames.push('FFZGlobal');
             }
             
             // Only reset the list when all types of emotes have been processed
@@ -297,7 +297,7 @@ client.on("message", (streamer, meta, message, self) => {
                 replacedEmoteNames.includes('FFZChannel')
             ) {
                 replacedEmoteNames = [];
-            }                        
+            }                                   
                 
             cbxW.className = "cbxW user";
             cbx.className = "cbx";

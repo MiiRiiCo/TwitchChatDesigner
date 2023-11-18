@@ -40,7 +40,7 @@ window.replaceTwitchEmotes = function (message, twitchEmoteRanges) {
 
 //---------------------------- BTTV Processing
 function extractBTTVEmotes(message, emotesArray) {
-    const emoteIds = [];
+    const emoteBTTVIds = [];
     
     if (emotesArray && Array.isArray(emotesArray)) {
         emotesArray.forEach(emoteInfo => {
@@ -52,7 +52,7 @@ function extractBTTVEmotes(message, emotesArray) {
                     (emoteIndex === 0 || /\s/.test(message[emoteIndex - 1])) &&
                     (emoteIndex + emoteCode.length === message.length || /\s/.test(message[emoteIndex + emoteCode.length]))
                 ) {
-                    emoteIds.push({
+                    emoteBTTVIds.push({
                         id: emoteInfo.id,
                         name: emoteInfo.code,
                         start: emoteIndex,
@@ -65,15 +65,15 @@ function extractBTTVEmotes(message, emotesArray) {
         });
     }
     
-    return emoteIds;
+    return emoteBTTVIds;
 }
 
-function generateBTTVEmoteUrls(emoteIds) {
-    const emoteUrls = [];
+function generateBTTVEmoteUrls(emoteBTTVIds) {
+    const emoteBTTVUrls = [];
     
-    emoteIds.forEach(emote => {
+    emoteBTTVIds.forEach(emote => {
         const emoteUrl = `https://cdn.betterttv.net/emote/${emote.id}/3x`;
-        emoteUrls.push({
+        emoteBTTVUrls.push({
             id: `bttv_${emote.id}`,
             url: emoteUrl,
             start: emote.start,
@@ -81,13 +81,13 @@ function generateBTTVEmoteUrls(emoteIds) {
             name: emote.name,
         });
     });
-    emoteUrls.sort((a, b) => b.start - a.start);
+    emoteBTTVUrls.sort((a, b) => b.start - a.start);
     
-    return emoteUrls;
+    return emoteBTTVUrls;
 }
 
-function replaceBTTVEmotes(message, emoteUrls) {
-    emoteUrls.forEach(emote => {
+function replaceBTTVEmotes(message, emoteBTTVUrls) {
+    emoteBTTVUrls.forEach(emote => {
         try {
             const emoteHTML = `<img class="emt" src="${emote.url}" alt="${emote.url}">`;
             message = message.substring(0, emote.start) + emoteHTML + message.substring(emote.end + 1);
@@ -179,7 +179,7 @@ window.replace7TVGlobalEmotes = function (message, sevenTVUrls) {
     sevenTVUrls.forEach(emote => {
         try {
             const emoteHTML = `<img class="emt" src="${emote.url}" alt="${emote.url}">`;
-            message = message.substring(0, emote.start) + emoteHTML + message.substring(emote.end + 1);
+            message = message.substring(0, emote.start) + emoteHTML + message.substring(emote.end);
         } catch (error) {
             console.error('Fehler beim Ersetzen von 7TV Global Emotes:', error);
         }
@@ -240,23 +240,12 @@ window.generate7TVChannelEmoteUrls = function (sevenTVChannelEmoteIds) {
 }
 
 window.replace7TVChannelEmotes = function (message, sevenTVChannelUrls) {
-    let emotesReplaced = false;
-    
     sevenTVChannelUrls.forEach(emote => {
         const emoteHTML = `<img class="emt" src="${emote.url}" alt="${emote.url}">`;
-    
-        const emoteCode = emote.code || emote.name;
-        if (message.includes(emoteCode)) {
-            message = message.split(emoteCode).join(emoteHTML);
-            emotesReplaced = true;
-        }
+        message = message.split(emote.name).join(emoteHTML);
     });
-    
-    if (emotesReplaced) {
-        return message;
-    } else {
-        return message;
-    }
+
+    return message;
 }
 
 // -------------------------- FFZ Global Emotes
