@@ -4656,6 +4656,8 @@ function decompileUsnContent() {
 
                 usnContentFinal = usnContentFinal.replace(/{badges}/g, usn.parentNode.parentNode.getAttribute("data-badges"));
 
+                usnContentFinal = usnContentFinal.replace(/{prn}/g, usn.parentNode.parentNode.getAttribute("pronouns"));
+
                 usn.innerHTML = usnContentFinal;
             });
         }
@@ -6900,6 +6902,8 @@ function decompileMsgContent() {
                 msgContentFinal = msgContentFinal.replace(/{ss}/g, msg.parentNode.parentNode.getAttribute("data-ss"));
 
                 msgContentFinal = msgContentFinal.replace(/{badges}/g, msg.parentNode.parentNode.getAttribute("data-badges"));
+
+                usnContentFinal = usnContentFinal.replace(/{prn}/g, msg.parentNode.parentNode.getAttribute("pronouns"));
 
                 msg.innerHTML = msgContentFinal;
             });

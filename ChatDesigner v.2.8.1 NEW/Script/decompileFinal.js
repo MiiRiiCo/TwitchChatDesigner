@@ -48,6 +48,7 @@ client.on("message", (streamer, meta, message, self) => {
     let ffzGlobal;
     let ffzChannel;
     var replacedEmoteNames = [];
+    let pronounsID = "";
 
     console.log(meta);
     
@@ -142,21 +143,27 @@ client.on("message", (streamer, meta, message, self) => {
     const fetchPronouns = async () => {
         try {
             const response = await fetch(`https://pronouns.alejo.io/api/users/${meta["username"]}`);
-    
+        
             if (!response.ok) {
                 throw new Error(`Fehlerhafter API-Antwortcode für Pronouns: ${response.status}`);
             }
-    
+        
             const pronounsData = await response.json();
-    
+        
             console.log('Pronouns Daten:', pronounsData);
-    
+
+            // Überprüfe, ob pronounsData eine nicht leere Liste ist und nimm das erste Element
+            const firstPronoun = pronounsData.length > 0 ? pronounsData[0] : null;
+
+            // Extrahiere die Pronouns-ID aus den Pronouns-Daten
+            pronounsID = firstPronoun ? firstPronoun.pronoun_id : null;
+            console.log('Pronouns ID:', pronounsID);
+
             return pronounsData;
         } catch (error) {
             throw error;
         }
     };
-    
 
     // start the fetch and after fetch run decompileAll()
     const fetchData = async () => {
@@ -170,6 +177,9 @@ client.on("message", (streamer, meta, message, self) => {
             ]);
     
             channelBadges = badges;
+            await fetchFFZ();
+
+            await fetchPronouns();
 
             decompileAll();
     
@@ -196,6 +206,7 @@ client.on("message", (streamer, meta, message, self) => {
             second2 = messageTime.getSeconds().toString(),
             badgesArray = [],
             badgesFinal = "";
+
 
         if (meta.badges !== null) {
             badgesArray = Object.entries(meta.badges);
@@ -248,7 +259,7 @@ client.on("message", (streamer, meta, message, self) => {
                 cbx = document.createElement("div"),
                 usn = document.createElement("p"),
                 msg = document.createElement("p"),
-                messageFin = "";
+                messageFin = "";            
             
             //Global variables emoteProcessing.js
             const twitchEmoteRanges = extractTwitchEmote(meta);
@@ -363,6 +374,7 @@ client.on("message", (streamer, meta, message, self) => {
             cbxW.setAttribute("data-s", second1);
             cbxW.setAttribute("data-ss", second2);
             cbxW.setAttribute("data-badges", badgesFinal);
+            cbxW.setAttribute("pronouns", pronounsID);
 
             var usnContentFinal = "" + settings.usnContent.user.value,
                 msgContentFinal = "" + settings.msgContent.user.value;
@@ -434,6 +446,9 @@ client.on("message", (streamer, meta, message, self) => {
             
             usnContentFinal = usnContentFinal.replace(/{badges}/g, badgesFinal);
             msgContentFinal = msgContentFinal.replace(/{badges}/g, badgesFinal);
+
+            usnContentFinal = usnContentFinal.replace(/{prn}/g, pronounsID);
+            msgContentFinal = msgContentFinal.replace(/{prn}/g, pronounsID);
 
             usn.className = "usn";
             usn.innerHTML = `${usnContentFinal}`;
