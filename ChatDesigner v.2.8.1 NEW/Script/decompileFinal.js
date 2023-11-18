@@ -223,40 +223,43 @@ client.on("message", (streamer, meta, message, self) => {
                 msg = document.createElement("p"),
                 messageFin = "";
             
-                const twitchEmoteRanges = extractTwitchEmote(meta);
-                const betterTTVEmoteIds = extractBetterTTVEmoteIds(message, bttvGlobal);
-                const betterTTVUrls = generateBetterTTVEmoteUrls(betterTTVEmoteIds);
-                const betterTTVChannelEmoteIds = extractBetterTTVChannelEmoteIds(message, bttvChannel);
-                const betterTTVChannelUrls = generateBetterTTVChannelEmoteUrls(betterTTVChannelEmoteIds);
-                const sevenTVGlobalEmoteIds = extract7TVEmoteIds(message, sevenTVGlobal);
-                const sevenTVGlobalUrls = generate7TVEmoteUrls(sevenTVGlobalEmoteIds);
-                const sevenTVChannelEmoteIds = extract7TVChannelEmoteIds(message, sevenTVChannel);
-                const sevenTVChannelUrls = generate7TVChannelEmoteUrls(sevenTVChannelEmoteIds);
-                const ffzGlobalEmoteIds = extractFFZGlobalEmoteIds(message, ffzGlobal);
-                const ffzGlobalUrls = generateFFZGlobalEmoteUrls(ffzGlobalEmoteIds);
-                const ffzChannelEmoteIds = extractFFZChannelEmoteIds(message, ffzChannel);
-                const ffzChannelUrls = generateFFZChannelEmoteUrls(ffzChannelEmoteIds);
+            const twitchEmoteRanges = extractTwitchEmote(meta);
+            const betterTTVEmoteIds = extractBetterTTVGlobalEmoteIds(message, bttvGlobal);
+            const betterTTVUrls = generateBetterTTVGlobalEmoteUrls(betterTTVEmoteIds);
+            const betterTTVChannelEmoteIds = extractBetterTTVChannelEmoteIds(message, bttvChannel);
+            const betterTTVChannelUrls = generateBetterTTVChannelEmoteUrls(betterTTVChannelEmoteIds);                
+            const sevenTVGlobalEmoteIds = extract7TVEmoteIds(message, sevenTVGlobal);
+            const sevenTVGlobalUrls = generate7TVEmoteUrls(sevenTVGlobalEmoteIds);
+            const sevenTVChannelEmoteIds = extract7TVChannelEmoteIds(message, sevenTVChannel);
+            const sevenTVChannelUrls = generate7TVChannelEmoteUrls(sevenTVChannelEmoteIds);
+            const ffzGlobalEmoteIds = extractFFZGlobalEmoteIds(message, ffzGlobal);
+            const ffzGlobalUrls = generateFFZGlobalEmoteUrls(ffzGlobalEmoteIds);
+            const ffzChannelEmoteIds = extractFFZChannelEmoteIds(message, ffzChannel);
+            const ffzChannelUrls = generateFFZChannelEmoteUrls(ffzChannelEmoteIds);
                 
-                messageFin += message;
-                
+            messageFin += message;
+
             // Check if Twitch emotes have been replaced
             if (!replacedEmoteNames.includes('Twitch')) {
-                messageFin = replaceTwitchEmotes(messageFin, twitchEmoteRanges);
+                const updatedMessage = replaceTwitchEmotes(messageFin, twitchEmoteRanges);
             
-                if (replacedEmoteNames.includes('Twitch')) {
+                // Check if Twitch emotes were successfully replaced
+                if (updatedMessage !== messageFin) {
+                    messageFin = updatedMessage;
+                    replacedEmoteNames.push('Twitch');
                 } else {
                     // Check if 7TV Channel emotes have been replaced
                     if (!replacedEmoteNames.includes('7TVChannel')) {
                         messageFin = replace7TVChannelEmotes(messageFin, sevenTVChannelUrls);
                         replacedEmoteNames.push('7TVChannel');
                     }
-                
+            
                     // Check if BetterTTV Channel emotes have been replaced
                     if (!replacedEmoteNames.includes('BetterTTVChannel')) {
                         messageFin = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
                         replacedEmoteNames.push('BetterTTVChannel');
                     }
-                
+            
                     // Check if FFZ Channel emotes have been replaced
                     if (!replacedEmoteNames.includes('FFZChannel')) {
                         messageFin = replaceFFZChannelEmotes(messageFin, ffzChannelUrls);
@@ -264,25 +267,25 @@ client.on("message", (streamer, meta, message, self) => {
                     }
                 }
             }
-                
+            
             // Check if bttv global emotes have been replaced
             if (!replacedEmoteNames.includes('BetterTTVGlobal')) {
                 messageFin = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
                 replacedEmoteNames.push('BetterTTVGlobal');
             }
-                
+            
             // Check if 7TV global emotes have been replaced
             if (!replacedEmoteNames.includes('7TVGlobal')) {
                 messageFin = replace7TVGlobalEmotes(messageFin, sevenTVGlobalUrls);
                 replacedEmoteNames.push('7TVGlobal');
             }
-                
+            
             // Check if FFZ Global emotes have been replaced
             if (!replacedEmoteNames.includes('FFZGlobal')) {
                 messageFin = replaceFFZGlobalEmotes(messageFin, ffzGlobalUrls);
                 replacedEmoteNames.push('FFZGlobal');
             }
-                
+            
             // Only reset the list when all types of emotes have been processed
             if (
                 replacedEmoteNames.includes('Twitch') &&
@@ -294,7 +297,7 @@ client.on("message", (streamer, meta, message, self) => {
                 replacedEmoteNames.includes('FFZChannel')
             ) {
                 replacedEmoteNames = [];
-            }
+            }                        
                 
             cbxW.className = "cbxW user";
             cbx.className = "cbx";
