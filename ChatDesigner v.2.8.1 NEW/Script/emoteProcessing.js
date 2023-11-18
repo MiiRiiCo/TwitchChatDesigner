@@ -86,7 +86,7 @@ function generateBTTVEmoteUrls(emoteIds) {
     return emoteUrls;
 }
 
-function replaceEmotes(message, emoteUrls) {
+function replaceBTTVEmotes(message, emoteUrls) {
     emoteUrls.forEach(emote => {
         try {
             const emoteHTML = `<img class="emt" src="${emote.url}" alt="${emote.url}">`;
@@ -98,7 +98,6 @@ function replaceEmotes(message, emoteUrls) {
     return message;
 }
 
-//---------------------------- BTTV Global Emotes
 window.extractBetterTTVGlobalEmoteIds = function(message, bttvGlobal) {
     return extractBTTVEmotes(message, bttvGlobal);
 }
@@ -108,10 +107,9 @@ window.generateBetterTTVGlobalEmoteUrls = function(betterTTVEmoteIds) {
 }
 
 window.replaceBetterTTVGlobalEmotes = function(message, betterTTVUrls) {
-    return replaceEmotes(message, betterTTVUrls);
+    return replaceBTTVEmotes(message, betterTTVUrls);
 }
 
-// -------------------------- BTTV Channel Emotes
 window.extractBetterTTVChannelEmoteIds = function(message, bttvChannel) {
     const channelEmotes = bttvChannel && bttvChannel.channelEmotes;
     const sharedEmotes = bttvChannel && bttvChannel.sharedEmotes;
@@ -127,7 +125,7 @@ window.generateBetterTTVChannelEmoteUrls = function(betterTTVChannelEmoteIds) {
 }
 
 window.replaceBetterTTVChannelEmotes = function(message, betterTTVChannelUrls) {
-    return replaceEmotes(message, betterTTVChannelUrls);
+    return replaceBTTVEmotes(message, betterTTVChannelUrls);
 }
 
 // -------------------------- 7TV Global Emotes
