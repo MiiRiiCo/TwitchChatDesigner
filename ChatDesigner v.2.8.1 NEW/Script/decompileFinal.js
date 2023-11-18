@@ -17,7 +17,7 @@ if (settings.genChatDirection === "up") {
 var allBadges;
 
 // Sende eine GET-Anfrage an die URL
-fetch("badges.twitch.tv/v1/badges/global/display")
+fetch("https://badges.twitch.tv/v1/badges/global/display")
 
     // Wenn die Anfrage erfolgreich ist, verarbeite die Antwort als JSON
     .then(function(response) {
@@ -240,66 +240,64 @@ client.on("message", (streamer, meta, message, self) => {
                 
             messageFin += message;
 
-            // Check if Twitch emotes have been replaced
-            if (!replacedEmoteNames.includes('Twitch')) {
-                const updatedMessage = replaceTwitchEmotes(messageFin, twitchEmoteRanges);
+            const emoteTypes = ['Twitch', 'BetterTTVGlobal', 'BetterTTVChannel', '7TVGlobal', '7TVChannel', 'FFZGlobal', 'FFZChannel'];
+
+            // Eine Map zum Speichern der bereits ersetzten Emotes
+            const replacedEmotesMap = new Map();
             
-                // Check if Twitch emotes were successfully replaced
-                if (updatedMessage !== messageFin) {
-                    messageFin = updatedMessage;
-                    replacedEmoteNames.push('Twitch');
-                } else {
-                    // Check if BetterTTV Global emotes have been replaced
-                    if (!replacedEmoteNames.includes('BetterTTVGlobal')) {
-                        messageFin = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
-                        replacedEmoteNames.push('BetterTTVGlobal');
+            for (const emoteType of emoteTypes) {
+                if (!replacedEmoteNames.includes(emoteType)) {
+                    let updatedMessage;
+            
+                    switch (emoteType) {
+                        case 'Twitch':
+                            updatedMessage = replaceTwitchEmotes(messageFin, twitchEmoteRanges);
+                            break;
+            
+                        case 'BetterTTVGlobal':
+                            updatedMessage = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
+                            break;
+            
+                        case 'BetterTTVChannel':
+                            updatedMessage = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
+                            break;
+            
+                        case '7TVGlobal':
+                            updatedMessage = replace7TVGlobalEmotes(messageFin, sevenTVGlobalUrls);
+                            break;
+            
+                        case '7TVChannel':
+                            updatedMessage = replace7TVChannelEmotes(messageFin, sevenTVChannelUrls);
+                            break;
+            
+                        case 'FFZGlobal':
+                            updatedMessage = replaceFFZGlobalEmotes(messageFin, ffzGlobalUrls);
+                            break;
+            
+                        case 'FFZChannel':
+                            updatedMessage = replaceFFZChannelEmotes(messageFin, ffzChannelUrls);
+                            break;
                     }
             
-                    // Check if BetterTTV Channel emotes have been replaced
-                    if (!replacedEmoteNames.includes('BetterTTVChannel')) {
-                        messageFin = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
-                        replacedEmoteNames.push('BetterTTVChannel');
-                    }
-            
-                    // Check if 7TV Global emotes have been replaced
-                    if (!replacedEmoteNames.includes('7TVGlobal')) {
-                        messageFin = replace7TVGlobalEmotes(messageFin, sevenTVGlobalUrls);
-                        replacedEmoteNames.push('7TVGlobal');
-                    }
-            
-                    // Check if 7TV Channel emotes have been replaced
-                    if (!replacedEmoteNames.includes('7TVChannel')) {
-                        messageFin = replace7TVChannelEmotes(messageFin, sevenTVChannelUrls);
-                        replacedEmoteNames.push('7TVChannel');
-                    }
-            
-                    // Check if FFZ Global emotes have been replaced
-                    if (!replacedEmoteNames.includes('FFZGlobal')) {
-                        messageFin = replaceFFZGlobalEmotes(messageFin, ffzGlobalUrls);
-                        replacedEmoteNames.push('FFZGlobal');
-                    }
-            
-                    // Check if FFZ Channel emotes have been replaced
-                    if (!replacedEmoteNames.includes('FFZChannel')) {
-                        messageFin = replaceFFZChannelEmotes(messageFin, ffzChannelUrls);
-                        replacedEmoteNames.push('FFZChannel');
+                    // Überprüfen, ob das Emote bereits ersetzt wurde
+                    if (updatedMessage !== messageFin) {
+                        // Überprüfen, ob das Emote bereits von einem anderen Anbieter ersetzt wurde
+                        if (!replacedEmotesMap.has(emoteType)) {
+                            messageFin = updatedMessage;
+                            replacedEmoteNames.push(emoteType);
+                            replacedEmotesMap.set(emoteType, true);
+                            break;
+                        }
                     }
                 }
             }
             
-            // Only reset the list when all types of emotes have been processed
-            if (
-                replacedEmoteNames.includes('Twitch') &&
-                replacedEmoteNames.includes('BetterTTVGlobal') &&
-                replacedEmoteNames.includes('BetterTTVChannel') &&
-                replacedEmoteNames.includes('7TVGlobal') &&
-                replacedEmoteNames.includes('7TVChannel') &&
-                replacedEmoteNames.includes('FFZGlobal') &&
-                replacedEmoteNames.includes('FFZChannel')
-            ) {
+            // Reset der Liste, wenn alle Arten von Emotes verarbeitet wurden
+            if (replacedEmoteNames.length === emoteTypes.length) {
                 replacedEmoteNames = [];
-            }                                   
-                
+                replacedEmotesMap.clear();
+            }            
+            
             cbxW.className = "cbxW user";
             cbx.className = "cbx";
 
