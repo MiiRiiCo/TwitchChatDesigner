@@ -140,6 +140,40 @@ client.on("message", (streamer, meta, message, self) => {
         }
     };
 
+    // function to format the pronoun information
+    const formatPronouns = (pronounInfo) => {
+    switch (pronounInfo.toLowerCase()) {
+        case "aeaer":
+            return "ae/aer";
+        case "eem":
+            return "e/em";
+        case "feafear":
+            return "fea/fear";
+        case "heshe":
+            return "he/she";
+        case "hethey":
+            return "he/they";
+        case "itits":
+            return "it/its";
+        case "perper":
+                return "per/per";
+        case "sheher":
+            return "she/her";
+        case "shethey":
+            return "she/they";        
+        case "theythem":
+            return "they/them";        
+        case "vever":
+            return "ve/ver";        
+        case "xexem":
+            return "xe/xem";
+        case "ziehir":
+            return "zie/hir";                                
+        default:
+            return pronounInfo;
+        }
+    };
+
     const fetchPronouns = async () => {
         try {
             const response = await fetch(`https://pronouns.alejo.io/api/users/${meta["username"]}`);
@@ -149,15 +183,10 @@ client.on("message", (streamer, meta, message, self) => {
             }
         
             const pronounsData = await response.json();
-        
-            console.log('Pronouns Daten:', pronounsData);
 
-            // Überprüfe, ob pronounsData eine nicht leere Liste ist und nimm das erste Element
             const firstPronoun = pronounsData.length > 0 ? pronounsData[0] : null;
 
-            // Extrahiere die Pronouns-ID aus den Pronouns-Daten
-            pronounsID = firstPronoun ? firstPronoun.pronoun_id : null;
-            console.log('Pronouns ID:', pronounsID);
+            pronounsID = firstPronoun ? formatPronouns(firstPronoun.pronoun_id) : null;
 
             return pronounsData;
         } catch (error) {
@@ -280,7 +309,7 @@ client.on("message", (streamer, meta, message, self) => {
 
             const emoteTypes = ['Twitch', 'BetterTTVGlobal', 'BetterTTVChannel', '7TVGlobal', '7TVChannel', 'FFZGlobal', 'FFZChannel'];
 
-            // Eine Map zum Speichern der bereits ersetzten Emotes
+            // a map to save the already replaced emotes
             const replacedEmotesMap = new Map();
             
             for (const emoteType of emoteTypes) {
@@ -317,9 +346,7 @@ client.on("message", (streamer, meta, message, self) => {
                             break;
                     }
             
-                    // Überprüfen, ob das Emote bereits ersetzt wurde
                     if (updatedMessage !== messageFin) {
-                        // Überprüfen, ob das Emote bereits von einem anderen Anbieter ersetzt wurde
                         if (!replacedEmotesMap.has(emoteType)) {
                             messageFin = updatedMessage;
                             replacedEmoteNames.push(emoteType);
@@ -330,7 +357,6 @@ client.on("message", (streamer, meta, message, self) => {
                 }
             }
             
-            // Reset der Liste, wenn alle Arten von Emotes verarbeitet wurden
             if (replacedEmoteNames.length === emoteTypes.length) {
                 replacedEmoteNames = [];
                 replacedEmotesMap.clear();

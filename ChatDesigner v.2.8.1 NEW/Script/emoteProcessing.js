@@ -1,6 +1,7 @@
 replacedEmoteNames = [];
 
 //---------------------------- Twitch Emotes
+
 window.extractTwitchEmote = function(meta) {
     var twitchEmoteRanges = [];
 
@@ -39,6 +40,7 @@ window.replaceTwitchEmotes = function (message, twitchEmoteRanges) {
 }
 
 //---------------------------- BTTV Processing
+
 function extractBTTVEmotes(message, emotesArray) {
     const emoteBTTVIds = [];
     
@@ -129,12 +131,13 @@ window.replaceBetterTTVChannelEmotes = function(message, betterTTVChannelUrls) {
 }
 
 // -------------------------- 7TV Global Emotes
+
 window.extract7TVEmoteIds = function(message, sevenTVGlobal) {
     const sevenTVEmoteIds = [];
 
     if (sevenTVGlobal && sevenTVGlobal.emotes && Array.isArray(sevenTVGlobal.emotes)) {
         sevenTVGlobal.emotes.forEach(emoteInfo => {
-            const emoteCode = emoteInfo.name; // 7TV verwendet "name" anstelle von "code"
+            const emoteCode = emoteInfo.name;
             let emoteIndex = message.indexOf(emoteCode);
 
             while (emoteIndex !== -1) {
@@ -162,7 +165,7 @@ window.generate7TVEmoteUrls = function (sevenTVEmoteIds) {
     const sevenTVUrls = [];
 
     sevenTVEmoteIds.forEach(emote => {
-        const emoteUrl = `https://cdn.7tv.app/emote/${emote.id}/3x.webp`; // Beispiel-URL, die angepasst werden muss
+        const emoteUrl = `https://cdn.7tv.app/emote/${emote.id}/3x.webp`;
         sevenTVUrls.push({
             id: `7tv_${emote.id}`,
             url: emoteUrl,
@@ -188,6 +191,7 @@ window.replace7TVGlobalEmotes = function (message, sevenTVUrls) {
 }
 
 // -------------------------- 7TV Channel Emotes
+
 window.extract7TVChannelEmoteIds = function(message, sevenTVChannel) {
     const sevenTVChannelEmoteIds = [];
 
@@ -199,7 +203,7 @@ window.extract7TVChannelEmoteIds = function(message, sevenTVChannel) {
 
     function extractEmotes(emotesArray) {
         emotesArray.forEach(emoteInfo => {
-            const emoteCode = emoteInfo.name; // 7TV verwendet "name" anstelle von "code"
+            const emoteCode = emoteInfo.name;
             let emoteIndex = message.indexOf(emoteCode);
 
             while (emoteIndex !== -1) {
@@ -225,7 +229,7 @@ window.generate7TVChannelEmoteUrls = function (sevenTVChannelEmoteIds) {
     const sevenTVChannelUrls = [];
 
     sevenTVChannelEmoteIds.forEach(emote => {
-        const emoteUrl = `https://cdn.7tv.app/emote/${emote.id}/3x.webp`; // Beispiel-URL, die angepasst werden muss
+        const emoteUrl = `https://cdn.7tv.app/emote/${emote.id}/3x.webp`;
         sevenTVChannelUrls.push({
             id: `7tv_${emote.id}`,
             url: emoteUrl,
@@ -249,12 +253,11 @@ window.replace7TVChannelEmotes = function (message, sevenTVChannelUrls) {
 }
 
 // -------------------------- FFZ Global Emotes
+
 window.extractFFZGlobalEmoteIds = function (ffzGlobal) {
     const ffzGlobalEmoteIds = [];
 
-    // Check if FFZ Global Emotes are available
     if (ffzGlobal && ffzGlobal.sets) {
-        // Check if the set with ID 3 (Global Emotes) exists
         const globalEmoteSet = ffzGlobal.sets[3];
         if (globalEmoteSet && globalEmoteSet.emoticons) {
             const ffzGlobalEmotes = globalEmoteSet.emoticons;
@@ -300,10 +303,10 @@ window.replaceFFZGlobalEmotes = function (message, ffzGlobalUrls) {
 }
 
 // -------------------------- FFZ Channel Emotes
+
 window.extractFFZChannelEmoteIds = function (ffzChannel) {
     const ffzChannelEmoteIds = [];
 
-    // Check if FFZ Channel Emotes are available
     if (ffzChannel && ffzChannel.sets) {
         for (const setId in ffzChannel.sets) {
             if (ffzChannel.sets.hasOwnProperty(setId)) {
