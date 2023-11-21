@@ -40,27 +40,184 @@ var allRoles = [
 ]
 
 client.on("message", (streamer, meta, message, self) => {
-    var channelBadges;
+    let channelBadges;
+    let bttvGlobal;
+    let bttvChannel;
+    let sevenTVGlobal;
+    let sevenTVChannel;
+    let ffzGlobal;
+    let ffzChannel;
+    var replacedEmoteNames = [];
+    let pronounsID = "";
 
-    fetch(`https://badges.twitch.tv/v1/badges/channels/${meta["room-id"]}/display`)
+    console.log(meta);
+    
+    // fetch BTTV Global and Channel Emotes
+    const fetchBetterTTV = async () => {
+        try {
+            const [globalResponse, channelResponse] = await Promise.all([
+                fetch('https://api.betterttv.net/3/cached/emotes/global'),
+                meta["room-id"] ? fetch(`https://api.betterttv.net/3/cached/users/twitch/${meta["room-id"]}`) : null
+            ]);
+    
+            if (!globalResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für BetterTTV Global: ${globalResponse.status}`);
+            }
+            bttvGlobal = await globalResponse.json();
+    
+            if (channelResponse && !channelResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für BetterTTV Kanal: ${channelResponse.status}`);
+            }
+            bttvChannel = channelResponse ? await channelResponse.json() : null;
+    
+            return { bttvGlobal, bttvChannel };
+        } catch (error) {
+            throw error;
+        }
+    };
 
-        // Wenn die Anfrage erfolgreich ist, verarbeite die Antwort als JSON
-        .then(function(response) {
+    // fetch FFZ Global and Channel Emotes
+    const fetchFFZ = async () => {
+        try {
+            const [globalResponse, channelResponse] = await Promise.all([
+                fetch('https://api.frankerfacez.com/v1/set/global'),
+                meta["room-id"] ? fetch(`https://api.frankerfacez.com/v1/user/id/${meta["room-id"]}`) : null
+            ]);
+    
+            if (!globalResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für FFZ Global: ${globalResponse.status}`);
+            }
+            ffzGlobal = await globalResponse.json();
+            console.log('ffz Global gefetcht:', ffzGlobal);
+
+            if (channelResponse && !channelResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für FFZ Kanal: ${channelResponse.status}`);
+            }
+            ffzChannel = channelResponse ? await channelResponse.json() : null;
+            console.log('ffz Channel gefetcht:', ffzChannel);
+
+            return { ffzGlobal, ffzChannel };
+        } catch (error) {
+            console.error('Fehler beim FFZ Fetch:', error);
+            throw error;
+        }
+    };
+
+    // fetch 7TV Global and Channel Emotes
+    const fetch7TV = async () => {
+        try {
+            const [globalResponse, channelResponse] = await Promise.all([
+                fetch('https://7tv.io/v3/emote-sets/global'),
+                meta["room-id"] ? fetch(` https://7tv.io/v3/users/twitch/${meta['room-id']}`) : null
+            ]);
+    
+            if (!globalResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für 7TV Global: ${globalResponse.status}`);
+            }
+            sevenTVGlobal = await globalResponse.json();
+    
+            if (channelResponse && !channelResponse.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für 7TV Kanal: ${channelResponse.status}`);
+            }
+            sevenTVChannel = channelResponse ? await channelResponse.json() : null;
+    
+            return { sevenTVGlobal, sevenTVChannel };
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    // fetch Twitch Badges
+    const fetchTwitchBadges = async () => {
+        try {
+            const response = await fetch(`https://badges.twitch.tv/v1/badges/channels/${meta["room-id"]}/display`);
+            if (!response.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode: ${response.status}`);
+            }
             return response.json();
-        })
+        } catch (error) {
+            throw new Error('Fehler beim Fetchen von Twitch Badges:');
+        }
+    };
 
-        // Wenn die JSON-Verarbeitung erfolgreich ist, speichere den JSON Code in eine Variable
-        .then(function(json) {
-            channelBadges = json;
-        })
+    // function to format the pronoun information
+    const formatPronouns = (pronounInfo) => {
+    switch (pronounInfo.toLowerCase()) {
+        case "aeaer":
+            return "ae/aer";
+        case "eem":
+            return "e/em";
+        case "feafear":
+            return "fea/fear";
+        case "heshe":
+            return "he/she";
+        case "hethey":
+            return "he/they";
+        case "itits":
+            return "it/its";
+        case "perper":
+                return "per/per";
+        case "sheher":
+            return "she/her";
+        case "shethey":
+            return "she/they";        
+        case "theythem":
+            return "they/them";        
+        case "vever":
+            return "ve/ver";        
+        case "xexem":
+            return "xe/xem";
+        case "ziehir":
+            return "zie/hir";                                
+        default:
+            return pronounInfo;
+        }
+    };
+
+    const fetchPronouns = async () => {
+        try {
+            const response = await fetch(`https://pronouns.alejo.io/api/users/${meta["username"]}`);
         
-        .then(function() {
-            decompileAll()
-        })
+            if (!response.ok) {
+                throw new Error(`Fehlerhafter API-Antwortcode für Pronouns: ${response.status}`);
+            }
+        
+            const pronounsData = await response.json();
 
-        .catch(function() {
-            decompileAll()
-        })
+            const firstPronoun = pronounsData.length > 0 ? pronounsData[0] : null;
+
+            pronounsID = firstPronoun ? formatPronouns(firstPronoun.pronoun_id) : null;
+
+            return pronounsData;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    // start the fetch and after fetch run decompileAll()
+    const fetchData = async () => {
+        try {
+            const [badges, { bttvGlobal, bttvChannel }, { sevenTVGlobal, sevenTVChannel }] = await Promise.all([
+                fetchTwitchBadges(),
+                fetchPronouns(),
+                fetch7TV(),
+                fetchFFZ(),
+                fetchBetterTTV(),
+            ]);
+    
+            channelBadges = badges;
+            await fetchFFZ();
+
+            await fetchPronouns();
+
+            decompileAll();
+    
+        } catch (error) {
+            decompileAll();
+        }
+    };
+    
+    fetchData();
 
     function decompileAll() {
         var usernameAllowed = true,
@@ -78,6 +235,7 @@ client.on("message", (streamer, meta, message, self) => {
             second2 = messageTime.getSeconds().toString(),
             badgesArray = [],
             badgesFinal = "";
+
 
         if (meta.badges !== null) {
             badgesArray = Object.entries(meta.badges);
@@ -130,34 +288,79 @@ client.on("message", (streamer, meta, message, self) => {
                 cbx = document.createElement("div"),
                 usn = document.createElement("p"),
                 msg = document.createElement("p"),
-                emoteCol = [],
-                messageFin = "";
-
-            if (meta["emotes"]) {
-                emoteCol = Object.entries(meta["emotes"]);
-            }
-
-            var emoteRanges = [];
-            for (let i = 0; i < emoteCol.length; i++) {
-                for (let j = 0; j < emoteCol[i][1].length; j++) {
-                    emoteRanges.push({
-                        name: emoteCol[i][0],
-                        from: parseInt(emoteCol[i][1][j].slice(0, emoteCol[i][1][j].indexOf("-"))),
-                        to: parseInt(emoteCol[i][1][j].slice(emoteCol[i][1][j].indexOf("-") + 1, emoteCol[i][1][j].length))
-                    });
-                }
-            }
-
-            emoteRanges.sort(function(a, b) {
-                var x = b["from"]; var y = a["from"];
-                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-            });
-
+                messageFin = "";            
+            
+            //Global variables emoteProcessing.js
+            const twitchEmoteRanges = extractTwitchEmote(meta);
+            const betterTTVEmoteIds = extractBetterTTVGlobalEmoteIds(message, bttvGlobal);
+            const betterTTVUrls = generateBetterTTVGlobalEmoteUrls(betterTTVEmoteIds);
+            const betterTTVChannelEmoteIds = extractBetterTTVChannelEmoteIds(message, bttvChannel);
+            const betterTTVChannelUrls = generateBetterTTVChannelEmoteUrls(betterTTVChannelEmoteIds);                
+            const sevenTVGlobalEmoteIds = extract7TVEmoteIds(message, sevenTVGlobal);
+            const sevenTVGlobalUrls = generate7TVEmoteUrls(sevenTVGlobalEmoteIds);
+            const sevenTVChannelEmoteIds = extract7TVChannelEmoteIds(message, sevenTVChannel);
+            const sevenTVChannelUrls = generate7TVChannelEmoteUrls(sevenTVChannelEmoteIds);
+            const ffzGlobalEmoteIds = extractFFZGlobalEmoteIds(message, ffzGlobal);
+            const ffzGlobalUrls = generateFFZGlobalEmoteUrls(ffzGlobalEmoteIds);
+            const ffzChannelEmoteIds = extractFFZChannelEmoteIds(message, ffzChannel);
+            const ffzChannelUrls = generateFFZChannelEmoteUrls(ffzChannelEmoteIds);
+                
             messageFin += message;
 
-            for (var i = 0; i < emoteRanges.length; i++) {
-                messageFin = messageFin.substring(0, emoteRanges[i].from) + `<img class="emt" src="https://static-cdn.jtvnw.net/emoticons/v2/${emoteRanges[i].name}/default/dark/4.0">` + messageFin.substring(emoteRanges[i].to + 1);
+            const emoteTypes = ['Twitch', 'BetterTTVGlobal', 'BetterTTVChannel', '7TVGlobal', '7TVChannel', 'FFZGlobal', 'FFZChannel'];
+
+            // a map to save the already replaced emotes
+            const replacedEmotesMap = new Map();
+            
+            for (const emoteType of emoteTypes) {
+                if (!replacedEmoteNames.includes(emoteType)) {
+                    let updatedMessage;
+            
+                    switch (emoteType) {
+                        case 'Twitch':
+                            updatedMessage = replaceTwitchEmotes(messageFin, twitchEmoteRanges);
+                            break;
+            
+                        case 'BetterTTVGlobal':
+                            updatedMessage = replaceBetterTTVGlobalEmotes(messageFin, betterTTVUrls);
+                            break;
+            
+                        case 'BetterTTVChannel':
+                            updatedMessage = replaceBetterTTVChannelEmotes(messageFin, betterTTVChannelUrls);
+                            break;
+            
+                        case '7TVGlobal':
+                            updatedMessage = replace7TVGlobalEmotes(messageFin, sevenTVGlobalUrls);
+                            break;
+            
+                        case '7TVChannel':
+                            updatedMessage = replace7TVChannelEmotes(messageFin, sevenTVChannelUrls);
+                            break;
+            
+                        case 'FFZGlobal':
+                            updatedMessage = replaceFFZGlobalEmotes(messageFin, ffzGlobalUrls);
+                            break;
+            
+                        case 'FFZChannel':
+                            updatedMessage = replaceFFZChannelEmotes(messageFin, ffzChannelUrls);
+                            break;
+                    }
+            
+                    if (updatedMessage !== messageFin) {
+                        if (!replacedEmotesMap.has(emoteType)) {
+                            messageFin = updatedMessage;
+                            replacedEmoteNames.push(emoteType);
+                            replacedEmotesMap.set(emoteType, true);
+                            break;
+                        }
+                    }
+                }
             }
+            
+            if (replacedEmoteNames.length === emoteTypes.length) {
+                replacedEmoteNames = [];
+                replacedEmotesMap.clear();
+            } 
             
             cbxW.className = "cbxW user";
             cbx.className = "cbx";
@@ -197,6 +400,7 @@ client.on("message", (streamer, meta, message, self) => {
             cbxW.setAttribute("data-s", second1);
             cbxW.setAttribute("data-ss", second2);
             cbxW.setAttribute("data-badges", badgesFinal);
+            cbxW.setAttribute("pronouns", pronounsID);
 
             var usnContentFinal = "" + settings.usnContent.user.value,
                 msgContentFinal = "" + settings.msgContent.user.value;
@@ -268,6 +472,9 @@ client.on("message", (streamer, meta, message, self) => {
             
             usnContentFinal = usnContentFinal.replace(/{badges}/g, badgesFinal);
             msgContentFinal = msgContentFinal.replace(/{badges}/g, badgesFinal);
+
+            usnContentFinal = usnContentFinal.replace(/{prn}/g, pronounsID);
+            msgContentFinal = msgContentFinal.replace(/{prn}/g, pronounsID);
 
             usn.className = "usn";
             usn.innerHTML = `${usnContentFinal}`;
@@ -1208,16 +1415,21 @@ client.on("message", (streamer, meta, message, self) => {
                     }
 
                     // settings.othEmotes[`${role}`].value
-
                     if (settings.othEmotes[`${role}`].active === true) {
-
+                        if (msg.innerText.trim() === '' && 
+                            (twitchEmoteRanges.length === 1 || betterTTVUrls.length === 1 || betterTTVChannelUrls.length === 1) || sevenTVGlobalUrls.length === 1 || sevenTVChannelUrls.length === 1) {
+                            msg.style.setProperty("--othEmoteHeight", `${settings.othEmotes[`${role}`].value.onlyheight}px`);
+                        } else {
+                        
                         if (settings.othEmotes[`${role}`].value.auto === true) {
                             msg.style.setProperty("--othEmoteHeight", `${settings.msgFont[`${role}`].value.size}px`);
                         } else if (settings.othEmotes[`${role}`].value.auto === false) {
                             msg.style.setProperty("--othEmoteHeight", `${settings.othEmotes[`${role}`].value.height}px`)
                         }
 
-                        msg.style.setProperty("--othEmoteVPos", settings.othEmotes[`${role}`].value.linePos);   
+                        msg.style.setProperty("--othEmoteVPos", settings.othEmotes[`${role}`].value.linePos); 
+                       
+                        }
                     }
 
                     // settings.othBadges 2

@@ -957,6 +957,10 @@
                             <th>{badges}</th>
                             <td>badges the user has on the streamers channel</td>
                         </tr>
+                        <tr>
+                            <th>{prn}</th>
+                            <td>pronouns the user has on Pronouns alejo.io</td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -1426,6 +1430,10 @@
                             <th>{badges}</th>
                             <td>badges the user has on the streamers channel</td>
                         </tr>
+                        <tr>
+                            <th>{prn}</th>
+                            <td>pronouns the user has on Pronouns alejo.io</td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -1449,6 +1457,11 @@
                 <div class="descrInputRow">
                     <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Arrow-BL-TR.svg"></span>
                     <input class="descrInput" type="number" class="emoteSize" id="othEmoteSizeInp" oninput="updateOthEmotes()">
+                    <button class="autoBtn emoteSizeAutoBtn" data-active="false" onclick="updateOthEmotes('autosize')">auto</button>
+                </div>
+                <div class="descrInputRow">
+                    <span class="descrIcon"><img class="iconSVG descrIconSVG" src="Icons/Diverse/Arrow-BL-TR.svg"></span>
+                    <input class="descrInput" type="number" class="emoteSize" id="othEmoteOnlySizeInp" oninput="updateOthEmotes()">
                     <button class="autoBtn emoteSizeAutoBtn" data-active="false" onclick="updateOthEmotes('autosize')">auto</button>
                 </div>
                 <div class="descrInputRow emoteAlignRow">
@@ -1696,6 +1709,7 @@
         </div>
     </div>
     <script src="Script/loadSettings.js"></script>
+    <script src="Script/emoteProcessing.js" ></script>
     <script src="Script/decompileFinal.js"></script>
 </body>
 </html>
